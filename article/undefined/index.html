@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            page
+            Hexo笔记
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -37,7 +37,7 @@
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">page</h1>
+                <h1 class="header-subtitle">Hexo笔记</h1>
                 <div class="header-subinfo">
                     <p class="article-info-text">
                         <span>
@@ -45,7 +45,7 @@
                         </span>
                         
                             
-                                <span id="/article/undefined/" class="leancloud_visitors" data-flag-title="page">
+                                <span id="/article/undefined/" class="leancloud_visitors" data-flag-title="Hexo笔记">
                                     <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
                                 </span>
                             
@@ -70,22 +70,11 @@
         <div id="article">
             <div class="toc"></div>
             <div class="article-body">
-                <h1 id="mysql笔记"><a href="#mysql笔记" class="headerlink" title="mysql笔记"></a><strong>mysql笔记</strong></h1><h2 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a><strong>1、安装</strong></h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45790117/article/details/114976640%EF%BC%88%E4%B8%8D%E7%94%A8%E6%96%B0%E5%BB%BAmy.ini%E5%92%8Cdata%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%89">https://blog.csdn.net/qq_45790117/article/details/114976640（不用新建my.ini和data文件夹）</a></p>
-<p>建了my.ini和data文件夹按下方步骤操作<br>1.删除自己手动创建的data文件夹；</p>
-<p>2.管理员权限CMD的bin目录下，移除已错误安装的mysqld服务；</p>
-<p>mysqld -remove MySQL<br>出现删除成功！</p>
-<p>3.在CMD的bin目录下执行mysqld –initialize-insecure</p>
-<p>会发现程序在mysql的根目录下自动创建了data文件夹以及相关的文件</p>
-<p>4.bin目录下执行mysqld -install</p>
-<p>出现Service successfully installed.</p>
-<p>5.bin目录下执行mysql服务启动net start mysql  net stop mysql（管理员运行cmd）<br>MySQL 服务正在启动 ..<br>MySQL 服务已经启动成功。</p>
-<h2 id="2、修改规则（用于软件连接）"><a href="#2、修改规则（用于软件连接）" class="headerlink" title="2、修改规则（用于软件连接）"></a><strong>2、修改规则（用于软件连接）</strong></h2><p>mysql修改密码规则；</p>
-<p>ALTER USER‘root‘@’localhost’ IDENTIFIED BY ‘root’ PASSWORD EXPIRE NEVER; #修改加密规则 </p>
-<p>ALTER USER‘root‘@’localhost’ IDENTIFIED WITH mysql_native_password BY ‘root’; #更新一下用户的密码 </p>
-<p>FLUSH PRIVILEGES; #刷新权限</p>
-<p>重置密码：alter user‘root‘@’localhost’ identified by ‘root’;</p>
-<h2 id="3、导入sql表；"><a href="#3、导入sql表；" class="headerlink" title="3、导入sql表；"></a><strong>3、导入sql表；</strong></h2><p>mysql -u root -p<br>root<br>create databases xxx;<br>show databases;<br>use xxx;<br>source sql文件的路径（注意你的文件路径要是复制来的，要将”&quot;全部换成“&#x2F;”）<br>输入“show tables”，你就会看到你导入的表了。</p>
-<p>alter table xxx rename to xxx;  修改表名</p>
+                <p><strong>1、Hexo常用指令</strong></p>
+<p>hexo clean  \清除静态文件<br>hexo g	\生成静态文件<br>hexo s	\启动本地预览<br>hexo d 	\上传</p>
+<p>npm install hexo-deployer-git –save	\上传需要安装这个插件</p>
+<p><strong>2、****Hexo官网</strong></p>
+<p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo</a></p>
 
                 
                 <p class="end">__END__</p>
@@ -93,12 +82,12 @@
             <div class="article-footer">
                 <div class="suffix-box">
     <div class="suffix-box-left">
-        <img src="/image/sidebar/avatar.jpg" alt="Live For Code">
+        <img src="/image/sidebar/avatar.jpg" alt="聪葱聪">
     </div>
     <div class="suffix-box-right">
-        <span class="suffix-box-title">文章作者：</span>Live For Code
+        <span class="suffix-box-title">文章作者：</span>聪葱聪
         <br>
-        <span class="suffix-box-title">文章出处：</span><a href="/article/undefined/" target="_blank">page</a>
+        <span class="suffix-box-title">文章出处：</span><a href="/article/undefined/" target="_blank">Hexo笔记</a>
         <br>
         <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
         <br>
@@ -112,6 +101,9 @@
                 
                 
                 <div class="article-prev-next">
+                    
+                        <a href="/article/undefined/" class="prev-prefix">« </a> 上一篇：    <a href="/article/undefined/" title="发布于 2023-05-31 03:30">mysql笔记</a>
+                        <br>
                     
                     
                 </div>
@@ -149,7 +141,7 @@
                     <img src="/image/sidebar/avatar.jpg">
                 </div> 
                 <div class="introduce-info"> 
-                    <div class="introduce-user"><span>Live For Code</span></div>
+                    <div class="introduce-user"><span>聪葱聪</span></div>
                 </div> 
             </div> 
             <div class="menu-list">
@@ -298,9 +290,9 @@
         GitHubUserName     : "first19326",
         GitHubRepositories : "Hexo-LiveForCode",
 
-        User             : "Live For Code",
+        User             : "聪葱聪",
         UserAvatar       : "/image/sidebar/avatar.jpg",
-        WebsiteStartDate : "2020-01-01",
+        WebsiteStartDate : "2023-05-31",
 
         WebsiteTitleBlur         : "(◍´꒳`◍) Hi, Live For Code",
         WebsiteTitleBlurTimeOut  : 500,
