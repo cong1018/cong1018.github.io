@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            关于
+            MySQL笔记
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -32,15 +32,36 @@
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body>
     <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/page.css">
+    <link type="text/css" rel="stylesheet" href="/css/post.css">
 <div id="header" class="header">
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">关于</h1>
+                <h1 class="header-subtitle">MySQL笔记</h1>
                 <div class="header-subinfo">
-                    <p class="article-info-text Chinese"></p>
-                    <p class="article-info-text English"></p>                  
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2023-05-31
+                        </span>
+                        
+                            
+                                <span id="/article/2/" class="leancloud_visitors" data-flag-title="MySQL笔记">
+                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                                </span>
+                            
+                            
+                                <span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/article/2/"></span>
+                                </span>
+                              
+                        
+                    </p>
+                    
+                    
+                        
+                            <span class="tag-color">MySQL</span>
+                        
+                    
                 </div>
             
         </div>
@@ -49,19 +70,80 @@
 </div>
 <div id="container">
     
-        <!-- 独立页面 -->
-        
-            <div id="article">
-                <div class="article-body">
-                    
-                    <h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>我是一个在命运长河里挣扎的小鱼，90后，目前是小白一枚。<br>虽然心中不甘，但是目前确实是 <strong>Worst One</strong> 。<br>目标是成为全栈工程师、系统架构师。虽然前路迷茫，但是我会一步一步往前走。</p>
-<h2 id="关于主题"><a href="#关于主题" class="headerlink" title="关于主题"></a>关于主题</h2><p><a target="_blank" rel="noopener" href="https://github.com/first19326/Hexo-LiveForCode/">Hexo - LiveForCode</a> 主题是根据 <a target="_blank" rel="noopener" href="https://dbnuo.com/">BNDong</a> 的博客样式复制过来的，其中也借鉴了 <a target="_blank" rel="noopener" href="http://theme-next.iissnan.com/">Hexo - NexT</a> 主题的样式。可能这个主题还有很多不尽人意的地方，在后续的阶段我会不断地完善，如果有关于主题的相关问题，欢迎联系我。</p>
+        <!-- 文章页面 -->
+        <div id="article">
+            <div class="toc"></div>
+            <div class="article-body">
+                <h2 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a><strong>1、安装</strong></h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45790117/article/details/114976640%EF%BC%88%E4%B8%8D%E7%94%A8%E6%96%B0%E5%BB%BAmy.ini%E5%92%8Cdata%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%89">https://blog.csdn.net/qq_45790117/article/details/114976640（不用新建my.ini和data文件夹）</a></p>
+<p>建了my.ini和data文件夹按下方步骤操作<br>1.删除自己手动创建的data文件夹；</p>
+<p>2.管理员权限CMD的bin目录下，移除已错误安装的mysqld服务；</p>
+<p>mysqld -remove MySQL<br>出现删除成功！</p>
+<p>3.在CMD的bin目录下执行mysqld –initialize-insecure</p>
+<p>会发现程序在mysql的根目录下自动创建了data文件夹以及相关的文件</p>
+<p>4.bin目录下执行mysqld -install</p>
+<p>出现Service successfully installed.</p>
+<p>5.bin目录下执行mysql服务启动net start mysql  net stop mysql（管理员运行cmd）<br>MySQL 服务正在启动 ..<br>MySQL 服务已经启动成功。</p>
+<h2 id="2、修改规则（用于软件连接）"><a href="#2、修改规则（用于软件连接）" class="headerlink" title="2、修改规则（用于软件连接）"></a><strong>2、修改规则（用于软件连接）</strong></h2><p>mysql修改密码规则；</p>
+<p>ALTER USER‘root‘@’localhost’ IDENTIFIED BY ‘root’ PASSWORD EXPIRE NEVER; #修改加密规则 </p>
+<p>ALTER USER‘root‘@’localhost’ IDENTIFIED WITH mysql_native_password BY ‘root’; #更新一下用户的密码 </p>
+<p>FLUSH PRIVILEGES; #刷新权限</p>
+<p>重置密码：alter user‘root‘@’localhost’ identified by ‘root’;</p>
+<h2 id="3、导入sql表；"><a href="#3、导入sql表；" class="headerlink" title="3、导入sql表；"></a><strong>3、导入sql表；</strong></h2><p>mysql -u root -p<br>root<br>create databases xxx;<br>show databases;<br>use xxx;<br>source sql文件的路径（注意你的文件路径要是复制来的，要将”&quot;全部换成“&#x2F;”）<br>输入“show tables”，你就会看到你导入的表了。</p>
+<p>alter table xxx rename to xxx;  修改表名</p>
 
+                
+                <p class="end">__END__</p>
+            </div>
+            <div class="article-footer">
+                <div class="suffix-box">
+    <div class="suffix-box-left">
+        <img src="/image/sidebar/avatar.jpg" alt="聪葱聪">
+    </div>
+    <div class="suffix-box-right">
+        <span class="suffix-box-title">文章作者：</span>聪葱聪
+        <br>
+        <span class="suffix-box-title">文章出处：</span><a href="/article/2/" target="_blank">MySQL笔记</a>
+        <br>
+        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
+        <br>
+        <span class="suffix-box-title">关于主题：</span><a href="https://cong1018.github.io/" target="_blank">Hexo - 聪葱聪</a>
+        <br>
+        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+        <br>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+                
+                
+                    <div class="tag">
+                        标签：
+                        
+                            <a href="/tag/MySQL/">MySQL</a>
+                        
+                    </div>
+                
+                <div class="article-prev-next">
+                    
+                        <a href="/article/3/" class="prev-prefix">« </a> 上一篇：    <a href="/article/3/" title="发布于 2023-05-31 07:03">nvm包管理器安装笔记</a>
+                        <br>
+                    
+                    
+                        <a href="/article/1/" class="next-prefix">» </a> 下一篇：    <a href="/article/1/" title="发布于 2023-05-31 07:01">Hexo笔记</a>
                     
                 </div>
-                 
+            </div>
+            
+    <div class="article-comments">
+        
+            <div class="comments-title">
+                评论列表
             </div>
         
+        <div class="comments-content"></div>
+    </div>
+    
+ 
+        </div>
     
 </div>
     <div id="footer">
@@ -99,7 +181,7 @@
                     
                         <li class=""><a href="/donate" class="" target="_self"><span class="iconfont icon-heart-fill"></span>赞赏</a></li>
                     
-                        <li class=" active "><a href="/about" class="" target="_self"><span class="iconfont icon-about-fill"></span>关于</a></li>
+                        <li class=""><a href="/about" class="" target="_self"><span class="iconfont icon-about-fill"></span>关于</a></li>
                     
                         <li class=""><a href="/atom.xml" class="" target="_blank"><span class="iconfont icon-rss"></span>订阅</a></li>
                     
