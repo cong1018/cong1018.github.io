@@ -87,7 +87,9 @@
 <p>ALTER USER‘root‘@’localhost’ IDENTIFIED BY ‘root’ PASSWORD EXPIRE NEVER; #修改加密规则 </p>
 <p>ALTER USER‘root‘@’localhost’ IDENTIFIED WITH mysql_native_password BY ‘root’; #更新一下用户的密码 </p>
 <p>FLUSH PRIVILEGES; #刷新权限</p>
-<p>重置密码：alter user‘root‘@’localhost’ identified by ‘root’;</p>
+<p>重置密码：alter user ‘root’ @  ‘localhost’  identified by  ‘root’;</p>
+<p>docker中修改密码规则</p>
+<p>ALTER USER ‘root’ IDENTIFIED WITH mysql_native_password BY  ‘root’; </p>
 <h2 id="3、导入sql表；"><a href="#3、导入sql表；" class="headerlink" title="3、导入sql表；"></a><strong>3、导入sql表；</strong></h2><p>mysql -u root -p<br>root<br>create databases xxx;<br>show databases;<br>use xxx;<br>source sql文件的路径（注意你的文件路径要是复制来的，要将”&quot;全部换成“&#x2F;”）<br>输入“show tables”，你就会看到你导入的表了。</p>
 <p>alter table xxx rename to xxx;  修改表名</p>
 
@@ -248,7 +250,7 @@
     
     <link type="text/css" rel="stylesheet" href="/css/APlayer.css">
     <script type="text/javascript" src="/js/APlayer.min.js"></script>
-    <script type="text/javascript" src="/js/Meting.min.js"></script>
+    <script type="text/javascript" src="/js/meting-plus.js"></script>
     <meting-js id="3778678" lrcshow="false" server="netease" type="playlist" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.67" mutex="true"></meting-js>
 
     <div class="wrap-right">
@@ -706,9 +708,9 @@
                     {
                         name   : "Endless Tears",
                         artist : "CLIFF EDGE",
-                        cover  : "/music/cover/Endless Tears.jpg",
-                        url    : "/music/song/Endless Tears.mp3",
-                        lrc    : "/music/lrc/Endless Tears.lrc"
+                        cover  : "/music/cover/EndlessTears.jpg",
+                        url    : "/music/song/EndlessTears.mp3",
+                        lrc    : "/music/lrc/EndlessTears.lrc"
                     },
                 
             ]
@@ -769,7 +771,7 @@
             iscroll          : "/js/iscroll.js",
             jQuery           : "/js/jquery-3.4.1.min.js",
             loading          : "/js/loading.js",
-            meting           : "/js/Meting.min.js",
+            meting           : "/js/meting-plus.js",
             require          : "/js/require.min.js",
             waline           : "/js/waline.mjs",
             pageview         : "/js/pageview.mjs",
