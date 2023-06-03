@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            nvm包管理器安装笔记
+            分类 - node
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -32,40 +32,15 @@
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body>
     <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/post.css">
+    <link type="text/css" rel="stylesheet" href="/css/archive.css">
 <div id="header" class="header">
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">nvm包管理器安装笔记</h1>
+                <h1 class="header-subtitle">分类归档</h1>
                 <div class="header-subinfo">
-                    <p class="article-info-text">
-                        <span>
-                            <i class="iconfont icon-time"></i> 发表时间：2023-05-31
-                        </span>
-                        
-                            
-                                <span id="/article/3/" class="leancloud_visitors" data-flag-title="nvm包管理器安装笔记">
-                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
-                                </span>
-                            
-                            
-                                <span>
-                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/article/3/"></span>
-                                </span>
-                              
-                        
-                    </p>
-                    
-                        
-                            <span class="category-color">node</span>
-                        
-                    
-                    
-                        
-                            <span class="tag-color">node</span>
-                        
-                    
+                    <p class="article-info-text Chinese"></p>
+                    <p class="article-info-text English"></p>                  
                 </div>
             
         </div>
@@ -74,168 +49,37 @@
 </div>
 <div id="container">
     
-        <!-- 文章页面 -->
-        <div id="article">
-            <div class="toc"></div>
-            <div class="article-body">
-                <ul>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145#node_4">一、卸载node</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145#nvm_12">二、安装nvm</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145#_22">三、配置路径和下载源</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145#nvmnode_34">四、使用nvm安装node</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145#nvm_44">五、nvm常用命令</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145#nvm_63">六、卸载nvm</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145#npmcnpm_74">七、全局安装npm、cnpm</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/HuangsTing/article/details/113857145#_91">八、遇到的问题</a></li>
-</ul>
-<blockquote>
-<p>nvm 全名 <strong>node.js version management</strong>，顾名思义是一个<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=nodejs&spm=1001.2101.3001.7020">nodejs</a>的版本管理工具。通过它可以安装和切换不同版本的nodejs。</p>
-</blockquote>
-<h1 id="一、卸载node"><a href="#一、卸载node" class="headerlink" title="一、卸载node"></a>一、<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E5%8D%B8%E8%BD%BDnode&spm=1001.2101.3001.7020">卸载node</a></h1><p>如果你已经安装了node，那么你需要先卸载node，如果你没有安装那直接跳过这一步到下一步。</p>
-<p><strong>打开控制面板 -&gt; 打开程序和功能 -&gt; 右上角搜索输入node -&gt; 右键卸载</strong></p>
-<p>为了确保彻底删除node在看看你的<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=node%E5%AE%89%E8%A3%85&spm=1001.2101.3001.7020">node安装</a>目录中还有没有node文件夹，有的话一起删除。再看看C:\Users\用户名 文件夹下有没有<code>.npmrc</code>以及<code>.yarnrc</code>等等统统删除。再去看看你的环境变量有没有node相关的，有的话也一起删除了。</p>
-<h1 id="二、安装nvm"><a href="#二、安装nvm" class="headerlink" title="二、安装nvm"></a>二、安装nvm</h1><p>去github <a target="_blank" rel="noopener" href="https://github.com/coreybutler/nvm-windows/releases">下载最新的 nvm</a> 找到 <code>nvm-setup.zip</code> 点击下载<br><img src="/image/blog/nodebj/1.png"><br>选择nvm安装路径。<br><img src="/image/blog/nodebj/2.png" alt="在这里插入图片描述"><br>选择nodejs的安装路径。<br><img src="/image/blog/nodebj/3.png" alt="在这里插入图片描述"><br>点击next，安装完成后在终端输入<code>nvm version</code>，能查到版本号说明安装成功了。<br><img src="/image/blog/nodebj/4.png" alt="在这里插入图片描述"></p>
-<h1 id="三、配置路径和下载源"><a href="#三、配置路径和下载源" class="headerlink" title="三、配置路径和下载源"></a>三、配置路径和下载源</h1><p>安装完nvm后先不要着急安装node。</p>
-<p><strong>找到nvm安装路径 -&gt; 找到 <code>settings.txt</code> 文件 -&gt; 配置下载源</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node_mirror: https://npm.taobao.org/mirrors/node/</span><br><span class="line">npm_mirror: https://npm.taobao.org/mirrors/npm/</span><br></pre></td></tr></table></figure>
-
-<p><img src="/image/blog/nodebj/5.png" alt="在这里插入图片描述"></p>
-<h1 id="四、使用nvm安装node"><a href="#四、使用nvm安装node" class="headerlink" title="四、使用nvm安装node"></a>四、使用nvm安装node</h1><p>在终端输入 <code>nvm list available</code>， 查看网络可以安装的版本。<br><img src="/image/blog/nodebj/6.png" alt="在这里插入图片描述"><br>选择一个版本安装，比如 <code>nvm install 14.14.0</code>。<br><img src="/image/blog/nodebj/7.png" alt="在这里插入图片描述"><br>使用这个版本的node，<code>nvm use 14.14.0</code>。输入<code>node -v</code> 和 <code>npm -v</code>可以查询到node和npm的版本号。<br><img src="/image/blog/nodebj/8.png" alt="在这里插入图片描述"><br>输入<code>nvm list</code> 查看已经安装的node，<code>*</code>号表示当前使用的node版本。<br><img src="/image/blog/nodebj/9.png" alt="在这里插入图片描述"></p>
-<h1 id="五、nvm常用命令"><a href="#五、nvm常用命令" class="headerlink" title="五、nvm常用命令"></a>五、nvm常用命令</h1><table>
-<thead>
-<tr>
-<th>命令</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>nvm list</td>
-<td>查看已经安装的版本</td>
-</tr>
-<tr>
-<td>nvm list installed</td>
-<td>查看已经安装的版本</td>
-</tr>
-<tr>
-<td>nvm list available</td>
-<td>查看网络可以安装的版本</td>
-</tr>
-<tr>
-<td>nvm arch</td>
-<td>查看当前系统的位数和当前nodejs的位数</td>
-</tr>
-<tr>
-<td>nvm install [arch]</td>
-<td>安装制定版本的node 并且可以指定平台 version 版本号 arch 平台</td>
-</tr>
-<tr>
-<td>nvm on</td>
-<td>打开nodejs版本控制</td>
-</tr>
-<tr>
-<td>nvm off</td>
-<td>关闭nodejs版本控制</td>
-</tr>
-<tr>
-<td>nvm proxy [url]</td>
-<td>查看和设置代理</td>
-</tr>
-<tr>
-<td>nvm node_mirror [url]</td>
-<td>设置或者查看setting.txt中的node_mirror，如果不设置的默认是 <a target="_blank" rel="noopener" href="https://nodejs.org/dist/">https://nodejs.org/dist/</a></td>
-</tr>
-<tr>
-<td>nvm npm_mirror [url]</td>
-<td>设置或者查看setting.txt中的npm_mirror,如果不设置的话默认的是：<a target="_blank" rel="noopener" href="https://github.com/npm/npm/archive/">https://github.com/npm/npm/archive/</a>.</td>
-</tr>
-<tr>
-<td>nvm uninstall</td>
-<td>卸载指定的版本</td>
-</tr>
-<tr>
-<td>nvm use [version] [arch]</td>
-<td>切换指定的node版本和位数</td>
-</tr>
-<tr>
-<td>nvm root [path]</td>
-<td>设置和查看root路径</td>
-</tr>
-<tr>
-<td>nvm version</td>
-<td>查看当前的版本</td>
-</tr>
-</tbody></table>
-<h1 id="六、卸载nvm"><a href="#六、卸载nvm" class="headerlink" title="六、卸载nvm"></a>六、卸载nvm</h1><p>1.可以通过下面方式卸载或找到nvm安装路径，直接将文件删掉。<br><img src="/image/blog/nodebj/10.png" alt="在这里插入图片描述"><br>2.卸载完后记得删除nvm环境变量配置（环境变量是在安装时候自动生成的)。</p>
-<p><strong>此电脑 -&gt; 右键属性 -&gt; 高级系统设置 -&gt; 环境变量 -&gt; 找到nvm相关的 -&gt; 删除</strong><br><img src="/image/blog/nodebj/11.png" alt="在这里插入图片描述"><br><img src="/image/blog/nodebj/12.png" alt="在这里插入图片描述"><br>统统删除，OK。</p>
-<h1 id="七、全局安装npm、cnpm"><a href="#七、全局安装npm、cnpm" class="headerlink" title="七、全局安装npm、cnpm"></a>七、全局安装npm、cnpm</h1><p>安装node的时候，npm其实也已经一起安装了。因为nvm可以管理多个版本的node，如果每次添加一个node版本都要安装一堆的包很麻烦，如果有一个npm可以让各个版本的node共用，就不会这么麻烦了。</p>
-<p><strong>简单的三步就可以配置一个全局的npm。</strong></p>
-<p>1.<code>npm config set prefix &quot;E:\nvm\npm&quot;</code> &#x2F;&#x2F;配置用npm下载包时全局安装的包路径。</p>
-<p>2.<code>npm install npm -g --registry=https://registry.npm.taobao.org</code> &#x2F;&#x2F;安装全局npm，不同的node都使用这个npm。想更新全局的npm的话首先删除全局路径(就是上一行命令的地址，可以使用npm config ls查看)下的npm，再执行一次这个命令即可。</p>
-<p>3.在用户变量中添加 <code>NPM_HOME</code> &#x3D; <code>E:\nvm\npm</code>，path中添加<code>%NPM_HOME%</code>。这里需要注意的是，<code>%NPM_HOME%</code>要添加在<code>%NVM_SYMLINK%</code>之前，避免npm访问到的是nodejs中自带的npm包管理工具。</p>
-<p><strong>使用淘宝镜像cnpm。</strong></p>
-<p>1.<code>npm install -g cnpm --registry=https://registry.npm.taobao.org</code> &#x2F;&#x2F;使用淘宝镜像cnmp替代npm</p>
-<p>2.<code>cnpm config get registry</code> &#x2F;&#x2F;验证cnpm是否可用</p>
-<h1 id="八、遇到的问题"><a href="#八、遇到的问题" class="headerlink" title="八、遇到的问题"></a>八、遇到的问题</h1><p>1.在安装nvm的时候没有卸载node，导致使用nvm安装完之后，node和npm都不可用。</p>
-<p>2.在第一次使用nvm安装node后，要记得使用 <code>nvm use</code> 切换下node版本，以及用 <code>nvm on</code> 打开nodejs版本控制，不然这时候node和npm也都不可用。</p>
-<p>3.全局安装完npm的时候，需要关掉终端窗口重新打开，才能装得上cnpm。</p>
-
-                
-                <p class="end">__END__</p>
-            </div>
-            <div class="article-footer">
-                <div class="suffix-box">
-    <div class="suffix-box-left">
-        <img src="/image/sidebar/avatar.jpg" alt="聪葱聪">
-    </div>
-    <div class="suffix-box-right">
-        <span class="suffix-box-title">文章作者：</span>聪葱聪
-        <br>
-        <span class="suffix-box-title">文章出处：</span><a href="/article/3/" target="_blank">nvm包管理器安装笔记</a>
-        <br>
-        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
-        <br>
-        <span class="suffix-box-title">关于主题：</span><a href="https://cong1018.github.io/" target="_blank">Hexo - 聪葱聪</a>
-        <br>
-        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
-        <br>
-    </div>
-    <div style="clear: both;"></div>
-</div>
-                
-                    <div class="category">
-                        分类：
+        
+            <!-- 归档页面、分类归档页面、标签归档页面 -->
+            <div class="articles">
+                <div class="articles-wrap">
+                    <span class="archive-move-on"></span>
+                    <span class="archive-counter">
                         
-                            <a href="/category/node/">node</a>
+                            当前分类：<span class="category">node</span>
                         
-                    </div>
-                
-                
-                    <div class="tag">
-                        标签：
-                        
-                            <a href="/tag/node/">node</a>
-                        
-                    </div>
-                
-                <div class="article-prev-next">
+                    </span>
                     
                     
-                        <a href="/article/2/" class="next-prefix">» </a> 下一篇：    <a href="/article/2/" title="发布于 2023-05-31 07:02">MySQL笔记</a>
+                        
+                            <div class="archive-title">
+                                <h2 class="archive-year">2023</h2>
+                            </div>
+                            
+                           
+                        <div class="article">
+                            <div class="article-header">
+                                <h1 class="article-title"><a href="/article/3/"><span>nvm包管理器安装笔记</span></a></h1>
+                                <div class="article-meta">
+                                    <span class="article-time">05-31</span>
+                                </div>
+                            </div>
+                        </div>
                     
                 </div>
             </div>
             
-    <div class="article-comments">
         
-            <div class="comments-title">
-                评论列表
-            </div>
-        
-        <div class="comments-content"></div>
-    </div>
-    
- 
-        </div>
     
 </div>
     <div id="footer">
