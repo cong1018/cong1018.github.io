@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            分类 - Docker
+            Docker命令实战
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -32,15 +32,40 @@
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body>
     <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/archive.css">
+    <link type="text/css" rel="stylesheet" href="/css/post.css">
 <div id="header" class="header">
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">分类归档</h1>
+                <h1 class="header-subtitle">Docker命令实战</h1>
                 <div class="header-subinfo">
-                    <p class="article-info-text Chinese"></p>
-                    <p class="article-info-text English"></p>                  
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2023-06-16
+                        </span>
+                        
+                            
+                                <span id="/article/5/" class="leancloud_visitors" data-flag-title="Docker命令实战">
+                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                                </span>
+                            
+                            
+                                <span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/article/5/"></span>
+                                </span>
+                              
+                        
+                    </p>
+                    
+                        
+                            <span class="category-color">Docker</span>
+                        
+                    
+                    
+                        
+                            <span class="tag-color">docker</span>
+                        
+                    
                 </div>
             
         </div>
@@ -49,47 +74,113 @@
 </div>
 <div id="container">
     
-        
-            <!-- 归档页面、分类归档页面、标签归档页面 -->
-            <div class="articles">
-                <div class="articles-wrap">
-                    <span class="archive-move-on"></span>
-                    <span class="archive-counter">
+        <!-- 文章页面 -->
+        <div id="article">
+            <div class="toc"></div>
+            <div class="article-body">
+                <h2 id="基础实战"><a href="#基础实战" class="headerlink" title="基础实战"></a>基础实战</h2><h3 id="1、找镜像"><a href="#1、找镜像" class="headerlink" title="1、找镜像"></a>1、找镜像</h3><p>去<a target="_blank" rel="noopener" href="http://hub.docker.com/">docker hub</a>，找到nginx镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx  <span class="comment">#下载最新版</span></span><br><span class="line"></span><br><span class="line">镜像名:版本名（标签）</span><br><span class="line"></span><br><span class="line">docker pull nginx:1.20.1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker pull redis  <span class="comment">#下载最新</span></span><br><span class="line">docker pull redis:6.2.4</span><br><span class="line"></span><br><span class="line"><span class="comment">## 下载来的镜像都在本地</span></span><br><span class="line">docker images  <span class="comment">#查看所有镜像</span></span><br><span class="line"></span><br><span class="line">redis = redis:latest</span><br><span class="line"></span><br><span class="line">docker rmi 镜像名:版本号/镜像<span class="built_in">id</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2、启动容器"><a href="#2、启动容器" class="headerlink" title="2、启动容器"></a>2、启动容器</h3><p>启动nginx应用容器，并映射88端口，测试的访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</span><br><span class="line"></span><br><span class="line">【docker run  设置项   镜像名  】 镜像启动运行的命令（镜像里面默认有的，一般不会写）</span><br><span class="line"></span><br><span class="line"><span class="comment"># -d：后台运行</span></span><br><span class="line"><span class="comment"># --restart=always: 开机自启</span></span><br><span class="line">docker run --name=mynginx   -d  --restart=always -p  88:80   nginx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看正在运行的容器</span></span><br><span class="line">docker ps</span><br><span class="line"><span class="comment"># 查看所有</span></span><br><span class="line">docker ps -a</span><br><span class="line"><span class="comment"># 删除停止的容器</span></span><br><span class="line">docker <span class="built_in">rm</span>  容器<span class="built_in">id</span>/名字</span><br><span class="line">docker <span class="built_in">rm</span> -f mynginx   <span class="comment">#强制删除正在运行中的</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#停止容器</span></span><br><span class="line">docker stop 容器<span class="built_in">id</span>/名字</span><br><span class="line"><span class="comment">#再次启动</span></span><br><span class="line">docker start 容器<span class="built_in">id</span>/名字</span><br><span class="line"></span><br><span class="line"><span class="comment">#应用开机自启</span></span><br><span class="line">docker update 容器<span class="built_in">id</span>/名字 --restart=always</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、修改容器内容"><a href="#3、修改容器内容" class="headerlink" title="3、修改容器内容"></a>3、修改容器内容</h3><p>修改默认的index.html 页面</p>
+<h4 id="1、进容器内部修改"><a href="#1、进容器内部修改" class="headerlink" title="1、进容器内部修改"></a>1、进容器内部修改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入容器内部的系统，修改容器内容</span></span><br><span class="line">docker <span class="built_in">exec</span> -it 容器<span class="built_in">id</span>  /bin/bash</span><br></pre></td></tr></table></figure>
+
+<h4 id="2、挂载数据到外部修改"><a href="#2、挂载数据到外部修改" class="headerlink" title="2、挂载数据到外部修改"></a>2、挂载数据到外部修改</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker run --name=mynginx   \</span><br><span class="line">-d  --restart=always \</span><br><span class="line">-p  88:80 -v /data/html:/usr/share/nginx/html:ro  \</span><br><span class="line">nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改页面只需要去 主机的 /data/html</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、提交改变"><a href="#4、提交改变" class="headerlink" title="4、提交改变"></a>4、提交改变</h3><p>将自己修改好的镜像提交</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker commit [OPTIONS] CONTAINER [REPOSITORY[:TAG]]</span><br><span class="line"></span><br><span class="line">docker commit -a <span class="string">&quot;leifengyang&quot;</span>  -m <span class="string">&quot;首页变化&quot;</span> 341d81f7504f guignginx:v1.0</span><br></pre></td></tr></table></figure>
+
+<h4 id="1、镜像传输"><a href="#1、镜像传输" class="headerlink" title="1、镜像传输"></a>1、镜像传输</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将镜像保存成压缩包</span></span><br><span class="line">docker save -o abc.tar guignginx:v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 别的机器加载这个镜像</span></span><br><span class="line">docker load -i abc.tar</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 离线安装</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5、推送远程仓库"><a href="#5、推送远程仓库" class="headerlink" title="5、推送远程仓库"></a>5、推送远程仓库</h3><p>推送镜像到docker hub；应用市场</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker tag local-image:tagname new-repo:tagname</span><br><span class="line">docker push new-repo:tagname</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把旧镜像的名字，改成仓库要求的新版名字</span></span><br><span class="line">docker tag guignginx:v1.0 leifengyang/guignginx:v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 登录到docker hub</span></span><br><span class="line">docker login       </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker <span class="built_in">logout</span>（推送完成镜像后退出）</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送</span></span><br><span class="line">docker push leifengyang/guignginx:v1.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 别的机器下载</span></span><br><span class="line">docker pull leifengyang/guignginx:v1.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="6、补充"><a href="#6、补充" class="headerlink" title="6、补充"></a>6、补充</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">docker logs 容器名/id   排错</span><br><span class="line"></span><br><span class="line">docker <span class="built_in">exec</span> -it 容器<span class="built_in">id</span> /bin/bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># docker 经常修改nginx配置文件</span></span><br><span class="line">docker run -d -p 80:80 \</span><br><span class="line">-v /data/html:/usr/share/nginx/html:ro \</span><br><span class="line">-v /data/conf/nginx.conf:/etc/nginx/nginx.conf \</span><br><span class="line">--name mynginx-02 \</span><br><span class="line">nginx</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#把容器指定位置的东西复制出来 </span></span><br><span class="line">docker <span class="built_in">cp</span> 5eff66eec7e1:/etc/nginx/nginx.conf  /data/conf/nginx.conf</span><br><span class="line"><span class="comment">#把外面的内容复制到容器里面</span></span><br><span class="line">docker <span class="built_in">cp</span>  /data/conf/nginx.conf  5eff66eec7e1:/etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<h3 id="进阶实战"><a href="#进阶实战" class="headerlink" title="进阶实战"></a>进阶实战</h3><h4 id="1、编写自己的应用"><a href="#1、编写自己的应用" class="headerlink" title="1、编写自己的应用"></a>1、编写自己的应用</h4><p>编写一个HelloWorld应用<br><a target="_blank" rel="noopener" href="https://start.spring.io/">https://start.spring.io/</a></p>
+<p>示例代码：  <a target="_blank" rel="noopener" href="https://gitee.com/leifengyang/java-demo.git">https://gitee.com/leifengyang/java-demo.git</a></p>
+<h4 id="2、将应用打包成镜像"><a href="#2、将应用打包成镜像" class="headerlink" title="2、将应用打包成镜像"></a>2、将应用打包成镜像</h4><p>编写Dockerfile将自己的应用打包镜像</p>
+<h5 id="1、以前"><a href="#1、以前" class="headerlink" title="1、以前"></a>1、以前</h5><p>Java为例</p>
+<p>​	●SpringBoot打包成可执行jar</p>
+<p>​	●把jar包上传给服务</p>
+<p>​	●服务器运行java -jar</p>
+<h5 id="2、现在"><a href="#2、现在" class="headerlink" title="2、现在"></a>2、现在</h5><p>所有机器都安装Docker，任何应用都是镜像，所有机器都可以运行</p>
+<h5 id="3、怎么打包-Dockerfile"><a href="#3、怎么打包-Dockerfile" class="headerlink" title="3、怎么打包-Dockerfile"></a>3、怎么打包-Dockerfile</h5><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> openjdk:<span class="number">8</span>-jdk-slim</span><br><span class="line"><span class="keyword">LABEL</span><span class="language-bash"> maintainer=leifengyang</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> target/*.jar   /app.jar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="language-bash"> [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/app.jar&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t java-demo:v1.0 .</span><br></pre></td></tr></table></figure>
+
+<p>思考：<br>每个应用每次打包，都需要本地编译、再上传服务器、再进行docker构建，如果有1000个应用要打包镜像怎么办？有没有更好的方式？</p>
+<h5 id="3、启动容器"><a href="#3、启动容器" class="headerlink" title="3、启动容器"></a>3、启动容器</h5><p>启动应用容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 --name myjava-app java-demo:v1.0 </span><br></pre></td></tr></table></figure>
+
+<p>分享镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 登录docker hub</span></span><br><span class="line">docker login</span><br><span class="line"></span><br><span class="line"><span class="comment">#给旧镜像起名</span></span><br><span class="line">docker tag java-demo:v1.0  leifengyang/java-demo:v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送到docker hub</span></span><br><span class="line">docker push leifengyang/java-demo:v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 别的机器</span></span><br><span class="line">docker pull leifengyang/java-demo:v1.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 别的机器运行</span></span><br><span class="line">docker run -d -p 8080:8080 --name myjava-app java-demo:v1.0 </span><br></pre></td></tr></table></figure>
+
+<h5 id="4、部署中间件"><a href="#4、部署中间件" class="headerlink" title="4、部署中间件"></a>4、部署中间件</h5><p>部署一个Redis+应用，尝试应用操作Redis产生数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</span><br><span class="line"></span><br><span class="line"><span class="comment">#redis使用自定义配置文件启动</span></span><br><span class="line"></span><br><span class="line">docker run -v /data/redis/redis.conf:/etc/redis/redis.conf \</span><br><span class="line">-v /data/redis/data:/data \</span><br><span class="line">-d --name myredis \</span><br><span class="line">-p 6379:6379 \</span><br><span class="line">redis:latest  redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+
+
+                
+                <p class="end">__END__</p>
+            </div>
+            <div class="article-footer">
+                <div class="suffix-box">
+    <div class="suffix-box-left">
+        <img src="/image/sidebar/avatar.jpg" alt="聪葱聪">
+    </div>
+    <div class="suffix-box-right">
+        <span class="suffix-box-title">文章作者：</span>聪葱聪
+        <br>
+        <span class="suffix-box-title">文章出处：</span><a href="/article/5/" target="_blank">Docker命令实战</a>
+        <br>
+        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
+        <br>
+        <span class="suffix-box-title">关于主题：</span><a href="https://cong1018.github.io/" target="_blank">Hexo - 聪葱聪</a>
+        <br>
+        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+        <br>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+                
+                    <div class="category">
+                        分类：
                         
-                            当前分类：<span class="category">Docker</span>
+                            <a href="/category/Docker/">Docker</a>
                         
-                    </span>
+                    </div>
+                
+                
+                    <div class="tag">
+                        标签：
+                        
+                            <a href="/tag/docker/">docker</a>
+                        
+                    </div>
+                
+                <div class="article-prev-next">
                     
                     
-                        
-                            <div class="archive-title">
-                                <h2 class="archive-year">2023</h2>
-                            </div>
-                            
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/5/"><span>Docker命令实战</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">06-16</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/4/"><span>Docker常用命令</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">06-12</span>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="/article/4/" class="next-prefix">» </a> 下一篇：    <a href="/article/4/" title="发布于 2023-06-12 05:48">Docker常用命令</a>
                     
                 </div>
             </div>
             
+    <div class="article-comments">
         
+            <div class="comments-title">
+                评论列表
+            </div>
+        
+        <div class="comments-content"></div>
+    </div>
+    
+ 
+        </div>
     
 </div>
     <div id="footer">
