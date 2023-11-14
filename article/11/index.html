@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>
+        
+            构建rtmp镜像及简单使用
+        
+    </title>
+    <link rel="shortcut icon" href="#"/>
+
+    <link type="text/css" rel="stylesheet" href="/font/LongCang.css">
+    <link type="text/css" rel="stylesheet" href="/font/Monda.css">
+    <link type="text/css" rel="stylesheet" href="/font/NotoSansSC.css">
+    <link type="text/css" rel="stylesheet" href="/font/NotoSerifSC.css">
+    <link type="text/css" rel="stylesheet" href="/font/Playball.css">
+    <link type="text/css" rel="stylesheet" href="/font/PTMono.css">
+    <link type="text/css" rel="stylesheet" href="/font/Roboto.css">
+    <link type="text/css" rel="stylesheet" href="/font/RobotoSlab.css">
+    <link type="text/css" rel="stylesheet" href="/font/Rosario.css">
+    <link type="text/css" rel="stylesheet" href="/font/UbuntuMono.css">
+
+    <link type="text/css" rel="stylesheet" href="/css/base.css">
+    <link type="text/css" rel="stylesheet" href="/css/code.css">
+
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+    <a id="cover"></a>
+    <link type="text/css" rel="stylesheet" href="/css/post.css">
+<div id="header" class="header">
+    <div class="vertical">
+        <div class="inner">
+            
+                <h1 class="header-subtitle">构建rtmp镜像及简单使用</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2023-11-14
+                        </span>
+                        
+                            
+                                <span id="/article/11/" class="leancloud_visitors" data-flag-title="构建rtmp镜像及简单使用">
+                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                                </span>
+                            
+                            
+                                <span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/article/11/"></span>
+                                </span>
+                              
+                        
+                    </p>
+                    
+                        
+                            <span class="category-color">rtmp</span>
+                        
+                    
+                    
+                        
+                            <span class="tag-color">rtmp</span>
+                        
+                    
+                </div>
+            
+        </div>
+    </div>
+    
+</div>
+<div id="container">
+    
+        <!-- 文章页面 -->
+        <div id="article">
+            <div class="toc"></div>
+            <div class="article-body">
+                <h1 id="构建rtmp镜像及简单使用"><a href="#构建rtmp镜像及简单使用" class="headerlink" title="构建rtmp镜像及简单使用"></a>构建rtmp镜像及简单使用</h1><h2 id="1、构建nginx-rtmp镜像"><a href="#1、构建nginx-rtmp镜像" class="headerlink" title="1、构建nginx-rtmp镜像"></a>1、构建nginx-rtmp镜像</h2><h3 id="1、编写Dockerfile文件"><a href="#1、编写Dockerfile文件" class="headerlink" title="1、编写Dockerfile文件"></a>1、编写Dockerfile文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"># 使用alpine作为基础镜像</span><br><span class="line">FROM alpine:latest</span><br><span class="line"></span><br><span class="line"># 修改Alpine的软件包源为阿里云</span><br><span class="line">RUN echo &quot;https://mirrors.aliyun.com/alpine/latest-stable/main/&quot; &gt; /etc/apk/repositories &amp;&amp; \</span><br><span class="line">    echo &quot;https://mirrors.aliyun.com/alpine/latest-stable/community/&quot; &gt;&gt; /etc/apk/repositories</span><br><span class="line"></span><br><span class="line"># 安装所需的软件包</span><br><span class="line">RUN apk --no-cache add wget unzip build-base openssl-dev pcre-dev zlib-dev</span><br><span class="line"></span><br><span class="line"># 下载nginx-http-flv-module</span><br><span class="line">RUN wget https://github.com/winshining/nginx-http-flv-module/archive/master.zip &amp;&amp; \</span><br><span class="line">    unzip master.zip</span><br><span class="line"></span><br><span class="line"># 下载Nginx源码</span><br><span class="line">RUN wget https://nginx.org/download/nginx-1.21.4.tar.gz &amp;&amp; \</span><br><span class="line">    tar -zxvf nginx-1.21.4.tar.gz</span><br><span class="line"></span><br><span class="line"># 编译安装Nginx并添加nginx-http-flv-module模块</span><br><span class="line">RUN cd nginx-1.21.4 &amp;&amp; \</span><br><span class="line">    ./configure --add-module=../nginx-http-flv-module-master &amp;&amp; \</span><br><span class="line">    make &amp;&amp; \</span><br><span class="line">    make install</span><br><span class="line"></span><br><span class="line"># 清理安装时的临时文件</span><br><span class="line">RUN rm -rf nginx-1.21.4 nginx-http-flv-module-master master.zip</span><br><span class="line"></span><br><span class="line"># 设置Nginx的工作目录</span><br><span class="line">WORKDIR /usr/local/nginx</span><br><span class="line"></span><br><span class="line"># 暴露Nginx的80端口</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line"># 启动Nginx</span><br><span class="line">CMD [&quot;/usr/local/nginx/sbin/nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、构建镜像"><a href="#2、构建镜像" class="headerlink" title="2、构建镜像"></a>2、构建镜像</h3><p>运行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t custom-nginx .</span><br></pre></td></tr></table></figure>
+
+<p>(custom-nginx为镜像名称可自行修改，或写成带版本号custom-nginx:1.0.0.1等)</p>
+<h3 id="3、启动容器"><a href="#3、启动容器" class="headerlink" title="3、启动容器"></a>3、启动容器</h3><p>nginx配置文件nginx.conf放到&#x2F;data&#x2F;nginx目录中，或者其他自定义目录，自定义时需要修改启动时存储卷位置，端口自行修改配置文件中listen后面的两个端口及启动时映射的端口；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">#user  nobody;</span><br><span class="line">worker_processes  1;</span><br><span class="line"> </span><br><span class="line">#error_log  logs/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"> </span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">    sendfile            on;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       9938;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        location /live &#123;</span><br><span class="line">            flv_live on; </span><br><span class="line">            chunked_transfer_encoding  on;</span><br><span class="line">            add_header &#x27;Access-Control-Allow-Origin&#x27; &#x27;*&#x27;; </span><br><span class="line">            add_header &#x27;Access-Control-Allow-Credentials&#x27; &#x27;true&#x27;; </span><br><span class="line">        &#125;</span><br><span class="line">        location / &#123;</span><br><span class="line">            root   html;</span><br><span class="line">            index  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  include /usr/local/nginx/conf/vhost/*.conf;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">rtmp &#123;  </span><br><span class="line">    out_queue               4096;</span><br><span class="line">    out_cork                 8;</span><br><span class="line">    max_streams             128; </span><br><span class="line">    timeout                 15s;</span><br><span class="line">    drop_idle_publisher     15s;</span><br><span class="line">    log_interval 5s; </span><br><span class="line">    log_size     1m; </span><br><span class="line">    server &#123;  </span><br><span class="line">        listen 9909;      #监听的端口号</span><br><span class="line">        #server_name 127.0.0.1;        </span><br><span class="line">        application live &#123;     #自定义的名字</span><br><span class="line">            live on;  </span><br><span class="line">       &#125;  	</span><br><span class="line">        application hls &#123;  </span><br><span class="line">            live on;  </span><br><span class="line">            hls on;  </span><br><span class="line">            hls_path /tmp/hls;   </span><br><span class="line">            hls_fragment 1s;</span><br><span class="line">            hls_playlist_length 3s;  </span><br><span class="line">       &#125;  </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>命令启动</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run  --name nginx  -p 9909:9909 -p 9938:9938   -v /data/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf -d --restart=always custom-nginx</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、docker-compose启动"><a href="#4、docker-compose启动" class="headerlink" title="4、docker-compose启动"></a>4、docker-compose启动</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">version: &#x27;3&#x27;</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">  nginx:</span><br><span class="line">    image: custom-nginx </span><br><span class="line">    ports:</span><br><span class="line">      - &quot;9909:9909&quot;</span><br><span class="line">      - &quot;9938:9938&quot;</span><br><span class="line">    volumes:</span><br><span class="line">      - /data/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf</span><br><span class="line">    restart: always</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、服务器安装ffmpeg"><a href="#2、服务器安装ffmpeg" class="headerlink" title="2、服务器安装ffmpeg"></a>2、服务器安装ffmpeg</h2><h3 id="1、先安装nasm"><a href="#1、先安装nasm" class="headerlink" title="1、先安装nasm"></a>1、先安装nasm</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local</span><br><span class="line">wget https://www.nasm.us/pub/nasm/releasebuilds/2.14/nasm-2.14.tar.gz</span><br><span class="line">tar -zxvf nasm-2.14.tar.gz</span><br><span class="line">cd nasm-2.14</span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、再安装x264（视频流转码，必用，不然会推流失败）"><a href="#2、再安装x264（视频流转码，必用，不然会推流失败）" class="headerlink" title="2、再安装x264（视频流转码，必用，不然会推流失败）"></a>2、再安装x264（视频流转码，必用，不然会推流失败）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># cd /usr/local</span><br><span class="line"># wget https://code.videolan.org/videolan/x264/-/archive/master/x264-master.zip</span><br><span class="line"># unzip x264-master.zip</span><br><span class="line"># cd x264-master</span><br><span class="line"># ./configure --enable-static --enable-shared</span><br><span class="line"># make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、安装FFmpeg-时间长耐心等待"><a href="#3、安装FFmpeg-时间长耐心等待" class="headerlink" title="3、安装FFmpeg,时间长耐心等待"></a>3、安装FFmpeg,时间长耐心等待</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local</span><br><span class="line">wget http://www.ffmpeg.org/releases/ffmpeg-4.3.tar.gz</span><br><span class="line">tar ffmpeg-4.3.tar.gz   使用这个解压tar -xvf ffmpeg-4.3.tar.gz</span><br><span class="line">cd ffmpeg-4.3</span><br><span class="line">./configure --prefix=/usr/local/ffmpeg  --enable-gpl --enable-libx264</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">cp /usr/local/ffmpeg/bin/* /usr/bin/</span><br><span class="line">ffmpeg -version </span><br></pre></td></tr></table></figure>
+
+<p>**ps:**上述步骤可能会报错：ffmpeg: error while loading shared libraries: libx264.so.155: cannot open shared object file: No such file or directory。</p>
+<p>解决：找不到对应库，库文件存放在 &#x2F;usr&#x2F;local&#x2F;lib 这个目录，这里将目录添加到配置文件中，命令行如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/ld.so.conf</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">添加如下内容并保存</span></span><br><span class="line">/usr/local/lib</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">执行如下命令</span></span><br><span class="line">ldconfig</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、测试推流"><a href="#3、测试推流" class="headerlink" title="3、测试推流"></a>3、测试推流</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">推摄像头rtsp流</span></span><br><span class="line">ffmpeg -re -rtsp_transport tcp -i &quot;rtsp://admin:123456@192.168.1.114:554/Streaming/Channels/101?transportmode=unicast&quot; -f flv -vcodec libx264 -vprofile baseline -acodec aac -strict experimental -ar 44100 -ac 2 -b:a 96k -r 25 -b:v 500k -s 640*480  -f flv  -q 10  rtmp://192.168.1.187:9909/live/101</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">服务器推本地视频流命令：</span></span><br><span class="line">ffmpeg -re -i /usr/local/mp4/1.mp4 -f flv -vcodec libx264 -vprofile baseline -acodec aac -strict experimental -ar 44100 -ac 2 -b:a 96k -r 25 -b:v 500k -s 640*480  -f flv  -q 10  rtmp://192.168.1.187:9909/live/101</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">OBS工具推流：</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">推流服务器：rtmp://192.168.1.187:9909/live/</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">串流秘钥：101</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">对应的拉流地址：</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">http方式：</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">http://192.168.1.187:9938/live?port=9909&amp;app=live&amp;stream=101</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">rtmp方式(VLC工具可以播放视频和音频，PotPlayer工具只能播放音频)：</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">rtmp://192.168.1.187:9909/live/101</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">具体来说:</span><br><span class="line">-re表示以本地帧率读取输入文件</span><br><span class="line">-i 指定输入文件/data/ffmpeg/1.flv</span><br><span class="line">-f flv 将输出格式设置为flv</span><br><span class="line">-vcodec libx264 使用H.264视频编码</span><br><span class="line">-vprofile baseline 使用H.264基线档次</span><br><span class="line">-acodec aac 使用AAC音频编码</span><br><span class="line">-strict experimental 开启实验性特性</span><br><span class="line">-ar 44100 设置音频采样率为44.1KHz</span><br><span class="line">-ac 2 设置音频声道为立体声</span><br><span class="line">-b:a 96k 设置音频码率为96Kbps</span><br><span class="line">-r 25 设置视频帧率为25fps</span><br><span class="line">-b:v 500k 设置视频码率为500Kbps</span><br><span class="line">-s 640*480 设置视频分辨率为640x480</span><br><span class="line">-f flv 再次设置格式为flv</span><br><span class="line">-q 10 设置视频质量参数为10</span><br><span class="line">rtmp://192.168.204.128:9909/live/101 推流地址和流名</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、前端测试页面"><a href="#4、前端测试页面" class="headerlink" title="4、前端测试页面"></a>4、前端测试页面</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">content</span>=<span class="string">&quot;text/html; charset=utf-8&quot;</span> <span class="attr">http-equiv</span>=<span class="string">&quot;Content-Type&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>flv.js demo<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="language-css"></span></span><br><span class="line"><span class="language-css">        <span class="selector-class">.mainContainer</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">display</span>: block;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">1024px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-left</span>: auto;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-right</span>: auto;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css"> </span></span><br><span class="line"><span class="language-css">        <span class="selector-class">.urlInput</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">display</span>: block;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-left</span>: auto;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-right</span>: auto;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-top</span>: <span class="number">8px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-bottom</span>: <span class="number">8px</span>;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css"> </span></span><br><span class="line"><span class="language-css">        <span class="selector-class">.centeredVideo</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">display</span>: block;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">height</span>: <span class="number">576px</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-left</span>: auto;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-right</span>: auto;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-bottom</span>: auto;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css"> </span></span><br><span class="line"><span class="language-css">        <span class="selector-class">.controls</span> &#123;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">display</span>: block;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">width</span>: <span class="number">100%</span>;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">text-align</span>: center;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-left</span>: auto;</span></span><br><span class="line"><span class="language-css">            <span class="attribute">margin-right</span>: auto;</span></span><br><span class="line"><span class="language-css">        &#125;</span></span><br><span class="line"><span class="language-css">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;mainContainer&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">video</span> <span class="attr">name</span>=<span class="string">&quot;videoElement&quot;</span> <span class="attr">id</span>=<span class="string">&quot;videoElement&quot;</span> <span class="attr">class</span>=<span class="string">&quot;centeredVideo&quot;</span> <span class="attr">controls</span> <span class="attr">muted</span> <span class="attr">autoplay</span> <span class="attr">width</span>=<span class="string">&quot;1024&quot;</span> <span class="attr">height</span>=<span class="string">&quot;576&quot;</span>&gt;</span></span><br><span class="line">        Your browser is too old which doesn&#x27;t support HTML5 video.</span><br><span class="line">    <span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcdn.net/ajax/libs/flv.js/1.6.2/flv.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"> </span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">function</span> <span class="title function_">start</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">if</span> (flvjs.<span class="title function_">isSupported</span>()) &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">var</span> videoElement = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;videoElement&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">var</span> flvPlayer = flvjs.<span class="title function_">createPlayer</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="attr">type</span>: <span class="string">&#x27;flv&#x27;</span>,</span></span><br><span class="line"><span class="language-javascript">                <span class="attr">url</span>: <span class="string">&#x27;http://192.168.1.187:9938/live?port=9909&amp;app=live&amp;stream=101&#x27;</span></span></span><br><span class="line"><span class="language-javascript">            &#125;);</span></span><br><span class="line"><span class="language-javascript">            flvPlayer.<span class="title function_">attachMediaElement</span>(videoElement);</span></span><br><span class="line"><span class="language-javascript">            flvPlayer.<span class="title function_">load</span>();</span></span><br><span class="line"><span class="language-javascript">            flvPlayer.<span class="title function_">play</span>();</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript"> </span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">document</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;DOMContentLoaded&#x27;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">        <span class="title function_">start</span>();</span></span><br><span class="line"><span class="language-javascript">    &#125;);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"> </span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="5、使用代码的方式推流"><a href="#5、使用代码的方式推流" class="headerlink" title="5、使用代码的方式推流"></a>5、使用代码的方式推流</h2><h3 id="1、引入依赖"><a href="#1、引入依赖" class="headerlink" title="1、引入依赖"></a>1、引入依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.bytedeco<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ffmpeg-platform<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>6.0-1.5.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.bytedeco<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javacv-platform<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.9<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2、代码"><a href="#2、代码" class="headerlink" title="2、代码"></a>2、代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> lombok.extern.slf4j.Slf4j;</span><br><span class="line"><span class="keyword">import</span> org.bytedeco.ffmpeg.global.avcodec;</span><br><span class="line"><span class="keyword">import</span> org.bytedeco.ffmpeg.global.avutil;</span><br><span class="line"><span class="keyword">import</span> org.bytedeco.javacv.*;</span><br><span class="line"><span class="keyword">import</span> org.bytedeco.opencv.global.opencv_imgcodecs;</span><br><span class="line"><span class="keyword">import</span> org.bytedeco.opencv.opencv_core.Mat;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.swing.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * rtsp转flv，</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Slf4j</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Test</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">videoUrl</span> <span class="operator">=</span> <span class="string">&quot;rtsp://admin:istk123456@192.168.1.108:554/cam/realmonitor?channel=1&amp;subtype=0&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">rtmpUrl</span> <span class="operator">=</span> <span class="string">&quot;rtmp://117.72.17.208:1935/live/101&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">FFmpegFrameGrabber</span> <span class="variable">grabber</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FFmpegFrameGrabber</span>(videoUrl);</span><br><span class="line"></span><br><span class="line">        grabber.setFormat(<span class="string">&quot;rtsp&quot;</span>);</span><br><span class="line">        grabber.setOption(<span class="string">&quot;rtsp_transport&quot;</span>, <span class="string">&quot;tcp&quot;</span>);</span><br><span class="line">        grabber.setOption(<span class="string">&quot;stimeout&quot;</span>, <span class="string">&quot;5000000&quot;</span>);</span><br><span class="line">        grabber.setPixelFormat(avutil.AV_PIX_FMT_BGR24);  <span class="comment">// 像素格式</span></span><br><span class="line">        grabber.setImageWidth(<span class="number">640</span>);  <span class="comment">// 视频帧宽度</span></span><br><span class="line">        grabber.setImageHeight(<span class="number">480</span>);  <span class="comment">// 视频帧高度</span></span><br><span class="line">        grabber.setFrameRate(<span class="number">25</span>);  <span class="comment">// 视频帧率</span></span><br><span class="line">        grabber.setAudioChannels(<span class="number">2</span>);  <span class="comment">// 音频通道数</span></span><br><span class="line">        grabber.setSampleRate(<span class="number">44100</span>);  <span class="comment">// 音频采样率</span></span><br><span class="line">        grabber.start();</span><br><span class="line"></span><br><span class="line">        <span class="type">FFmpegFrameRecorder</span> <span class="variable">recorder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FFmpegFrameRecorder</span>(rtmpUrl, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels());</span><br><span class="line">        recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);</span><br><span class="line">        recorder.setFormat(<span class="string">&quot;flv&quot;</span>);</span><br><span class="line">        recorder.setPixelFormat(avutil.AV_PIX_FMT_YUV420P);</span><br><span class="line">        recorder.setVideoOption(<span class="string">&quot;preset&quot;</span>, <span class="string">&quot;ultrafast&quot;</span>);</span><br><span class="line">        recorder.setFrameRate(<span class="number">25</span>);</span><br><span class="line">        recorder.setVideoCodecName(<span class="string">&quot;libx264&quot;</span>); <span class="comment">// 设置视频编码器</span></span><br><span class="line">        recorder.start();</span><br><span class="line"></span><br><span class="line">        Frame frame;</span><br><span class="line">        <span class="keyword">while</span> ((frame = grabber.grab()) != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="comment">// 对视频帧进行处理</span></span><br><span class="line">            frame = processFrame(frame);</span><br><span class="line">            <span class="comment">// 推送视频帧到RTMP服务器</span></span><br><span class="line">            recorder.record(frame);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        recorder.stop();</span><br><span class="line">        grabber.stop();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Frame <span class="title function_">processFrame</span><span class="params">(Frame frame)</span> &#123;</span><br><span class="line">        <span class="comment">// <span class="doctag">TODO:</span> 对视频帧进行处理，例如进行图像滤波、色彩转换、图像裁剪、缩放等操作。</span></span><br><span class="line">        <span class="keyword">return</span> frame;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">testzc</span><span class="params">()</span> <span class="keyword">throws</span> FrameGrabber.Exception</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="type">String</span> <span class="variable">rtsp</span> <span class="operator">=</span> <span class="string">&quot;rtsp://admin:istk123456@192.168.1.108:554/cam/realmonitor?channel=1&amp;subtype=0&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">FFmpegFrameGrabber</span> <span class="variable">grabber</span> <span class="operator">=</span> FFmpegFrameGrabber.createDefault(rtsp);</span><br><span class="line"></span><br><span class="line">        grabber.setOption(<span class="string">&quot;rtsp_transport&quot;</span>, <span class="string">&quot;tcp&quot;</span>); <span class="comment">// 使用tcp的方式，不然会丢包很严重</span></span><br><span class="line"></span><br><span class="line">        grabber.setImageWidth(<span class="number">960</span>);</span><br><span class="line"></span><br><span class="line">        grabber.setImageHeight(<span class="number">540</span>);</span><br><span class="line"></span><br><span class="line">        grabber.start();</span><br><span class="line"></span><br><span class="line">        <span class="type">CanvasFrame</span> <span class="variable">canvasFrame</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CanvasFrame</span>(<span class="string">&quot;正茂&quot;</span>);<span class="comment">// 创建窗口</span></span><br><span class="line"></span><br><span class="line">        canvasFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);<span class="comment">// 设置窗口关闭程序是否也跟随关闭</span></span><br><span class="line"></span><br><span class="line">        canvasFrame.setAlwaysOnTop(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        OpenCVFrameConverter.<span class="type">ToMat</span> <span class="variable">converter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">OpenCVFrameConverter</span>.ToMat();</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> <span class="variable">ex</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="type">Frame</span> <span class="variable">frame</span> <span class="operator">=</span> grabber.grabImage();</span><br><span class="line"></span><br><span class="line">            canvasFrame.showImage(frame);</span><br><span class="line"></span><br><span class="line"><span class="comment">//程序到这里其实已经实现了预览的功能了，下面的方法就是将流保存成图片</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//opencv_core.Mat</span></span><br><span class="line"></span><br><span class="line">            <span class="type">Mat</span> <span class="variable">mat</span> <span class="operator">=</span> converter.convertToMat(frame);</span><br><span class="line"></span><br><span class="line">            opencv_imgcodecs.imwrite(<span class="string">&quot;D:\\tp\\&quot;</span> + ex + <span class="string">&quot;.png&quot;</span>, mat);</span><br><span class="line"></span><br><span class="line">            ex++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line"></span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                Thread.sleep(<span class="number">1000</span>);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">catch</span> (InterruptedException e)</span><br><span class="line"></span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">                e.printStackTrace();</span><br><span class="line"></span><br><span class="line">            &#125; <span class="comment">// 1000毫秒刷新一次圖像</span></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、docker启动java项目需要添加ffmpeg的目录"><a href="#3、docker启动java项目需要添加ffmpeg的目录" class="headerlink" title="3、docker启动java项目需要添加ffmpeg的目录"></a>3、docker启动java项目需要添加ffmpeg的目录</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">version: &quot;3.3&quot;</span><br><span class="line">services:</span><br><span class="line">  syncplant-business-istk:</span><br><span class="line">    restart: always</span><br><span class="line">    image: syncplant-business-istk:1.0.1.1</span><br><span class="line">    container_name: syncplant-business-istk</span><br><span class="line">    network_mode: host</span><br><span class="line">    environment:</span><br><span class="line">      APP_NAME: syncplant-business-istk</span><br><span class="line">      JAVA_OPTS: &quot;-Xmx1g -Xms256m&quot;</span><br><span class="line">    env_file:</span><br><span class="line">      - ./config/syncplant.conf</span><br><span class="line">    volumes:</span><br><span class="line">      - ./logs:/data/log</span><br><span class="line"></span><br><span class="line">  syncplant-web-istk:</span><br><span class="line">    restart: always</span><br><span class="line">    image: syncplant-web-istk:1.0.1.1</span><br><span class="line">    container_name: syncplant-web-istk</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;9070:9070&quot;</span><br><span class="line">    volumes:</span><br><span class="line">      - ./config/istk.conf:/etc/nginx/conf.d/main.conf</span><br><span class="line">	  - /usr/bin/ffmpeg:/usr/bin/ffmpeg</span><br></pre></td></tr></table></figure>
+
+
+                
+                <p class="end">__END__</p>
+            </div>
+            <div class="article-footer">
+                <div class="suffix-box">
+    <div class="suffix-box-left">
+        <img src="/image/sidebar/avatar.jpg" alt="聪葱聪">
+    </div>
+    <div class="suffix-box-right">
+        <span class="suffix-box-title">文章作者：</span>聪葱聪
+        <br>
+        <span class="suffix-box-title">文章出处：</span><a href="/article/11/" target="_blank">构建rtmp镜像及简单使用</a>
+        <br>
+        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
+        <br>
+        <span class="suffix-box-title">关于主题：</span><a href="https://cong1018.github.io/" target="_blank">Hexo - 聪葱聪</a>
+        <br>
+        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+        <br>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+                
+                    <div class="category">
+                        分类：
+                        
+                            <a href="/category/rtmp/">rtmp</a>
+                        
+                    </div>
+                
+                
+                    <div class="tag">
+                        标签：
+                        
+                            <a href="/tag/rtmp/">rtmp</a>
+                        
+                    </div>
+                
+                <div class="article-prev-next">
+                    
+                    
+                        <a href="/article/10/" class="next-prefix">» </a> 下一篇：    <a href="/article/10/" title="发布于 2023-09-27 11:22">深入剖析Spring Cloud源码系列 - Nacos注册中心原理</a>
+                    
+                </div>
+            </div>
+            
+    <div class="article-comments">
+        
+            <div class="comments-title">
+                评论列表
+            </div>
+        
+        <div class="comments-content"></div>
+    </div>
+    
+ 
+        </div>
+    
+</div>
+    <div id="footer">
+    <div><span class='face'>ღゝ◡╹)ノ♡</span></div><div>【人生若只如初见<span><i class='iconfont icon-like-fill'></i></span>何事秋风悲画扇】</div><div>&copy; 2020-2023 WorstOne. All Rights Reserved.</div>
+</div>
+    <div id="sidebar">
+    <div class="menu-wrap" style="display:none;">
+        
+            <div class="menu-notice">
+                <span class="iconfont icon-notice"></span>
+                <div class="notice">
+                    <span>简单地活着，肆意而又精彩！</span>
+                </div>
+            </div>
+        
+        <nav class="menu">
+            <div class="menu-introduce"> 
+                <div class="introduce-avatar">
+                    <img src="/image/sidebar/avatar.jpg">
+                </div> 
+                <div class="introduce-info"> 
+                    <div class="introduce-user"><span>聪葱聪</span></div>
+                </div> 
+            </div> 
+            <div class="menu-list">
+                <ul>
+                    
+                        <li class=""><a href="/" class="" target="_self"><span class="iconfont icon-home-fill"></span>首页</a></li>
+                    
+                        <li class=""><a href="/category" class="" target="_self"><span class="iconfont icon-folder-fill"></span>分类</a></li>
+                    
+                        <li class=""><a href="/tag" class="" target="_self"><span class="iconfont icon-discount-fill"></span>标签</a></li>
+                    
+                        <li class=""><a href="/archive" class="" target="_self"><span class="iconfont icon-calendar-fill"></span>归档</a></li>
+                    
+                        <li class=""><a href="/donate" class="" target="_self"><span class="iconfont icon-heart-fill"></span>赞赏</a></li>
+                    
+                        <li class=""><a href="/about" class="" target="_self"><span class="iconfont icon-about-fill"></span>关于</a></li>
+                    
+                        <li class=""><a href="/atom.xml" class="" target="_blank"><span class="iconfont icon-rss"></span>订阅</a></li>
+                    
+                        <li class=""><a href="javascript:;" class="search" target="_self"><span class="iconfont icon-search-menu"></span>搜索</a></li>
+                    
+                        <li class=""><a href="/comment" class="" target="_self"><span class="iconfont icon-comments-fill"></span>留言板</a></li>
+                    
+                        <li class=""><a href="/friend" class="" target="_self"><span class="iconfont icon-link"></span>友情链接</a></li>
+                    
+                </ul> 
+            </div> 
+            <div class="menu-link">
+                <div class="box">
+                    <div class="image-box"></div>
+                </div>
+                
+                    <a name="知乎" href="https://www.zhihu.com/people/22-72-11-87" class="" target="_blank" data=""><span class="iconfont icon-zhihu"></span></a>
+                
+                    <a name="微博" href="https://weibo.com/u/1811896253" class="" target="_blank" data=""><span class="iconfont icon-weibo"></span></a>
+                
+                    <a name="QQ" href="javascript:;" class="image" target="_self" data="/image/sidebar/qq.png"><span class="iconfont icon-qq"></span></a>
+                
+                    <a name="微信" href="javascript:;" class="" target="_self" data=""><span class="iconfont icon-wechat"></span></a>
+                
+                    <a name="GitHub" href="https://github.com/cong1018" class="" target="_blank" data=""><span class="iconfont icon-github"></span></a>
+                
+            </div> 
+        </nav>
+        <button class="menu-button-close"></button>
+        <div class="morph-shape" id="morph-shape" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none">
+                <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"/>
+            </svg>
+        </div>
+    </div>
+    <button class="menu-button-open">MENU</button>
+    <div class="menu-cover"></div>
+</div>
+    <link type="text/css" rel="stylesheet" href="/css/search.css">
+<script type="text/javascript" src="/js/iscroll.js"></script>
+<script type="text/javascript" src="/js/instantsearch.min.js"></script>
+<div class="search-window">
+    <div class="search-content">
+        <div class="search-content-icon">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div id="search-input" class="search-input"></div>
+    </div>
+
+    <div class="search-scroll">
+        <div class="search-result">
+            <div id="search-stats" class="search-stats"></div>
+            <div id="search-hits"></div>
+            <div id="search-pagination" class="search-pagination"></div>
+        </div>
+    </div>
+
+    <span class="search-close-icon">
+        <i class="iconfont icon-close"></i>
+    </span>
+</div>
+    <div id="tools">
+    <div class="progressbar-top"></div>
+    
+    <link type="text/css" rel="stylesheet" href="/css/APlayer.css">
+    <script type="text/javascript" src="/js/APlayer.min.js"></script>
+    <script type="text/javascript" src="/js/Meting.min.js"></script>
+    <meting-js id="3778678" lrcshow="false" server="netease" type="playlist" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.67" mutex="true"></meting-js>
+
+    <div class="wrap-right">
+    <div class="wrap-right-hide">
+         <div class="wrap-right-button favorites">
+            <div class="iconbox" switch="false">
+                <span class="iconfont icon-favorites"></span>
+            </div>
+            <span class="icontext">关注</span>
+         </div>
+        <div class="wrap-right-button search">
+            <div class="iconbox">
+                <span class="iconfont icon-search-menu"></span>
+            </div>
+            <span class="icontext">搜索</span>
+        </div>
+        <div class="wrap-right-button menu-button">
+            <div class="iconbox">
+                <span class="iconfont icon-menu"></span>
+            </div>
+            <span class="icontext">菜单</span>
+        </div>
+        <div class="wrap-right-button mode">
+            <div class="light">
+                <div class="iconbox">
+                    <span class="iconfont icon-daymode"></span>
+                </div>
+                <span class="icontext">浅色模式</span>
+            </div>
+            <div class="dark">
+                <div class="iconbox">
+                    <span class="iconfont icon-nightmode-fill"></span>
+                </div>
+                <span class="icontext">深色模式</span>
+            </div>
+        </div>
+        <div class="wrap-right-button bottom">
+            <div class="iconbox">
+                <span class="iconfont icon-top"></span>
+            </div>
+            <span class="icontext">跳至底部</span>
+        </div>
+    </div>
+    <div class="wrap-right-show">
+        <div class="wrap-right-button set">
+            <div class="iconbox">
+                <span class="iconfont icon-setting"></span>
+            </div>
+            <span class="icontext">设置</span>
+        </div>
+        <div class="wrap-right-button top">
+            <div class="iconbox">
+                <span class="iconfont icon-top"></span>
+            </div>
+            <span class="icontext">返回顶部</span>
+        </div>
+    </div>
+</div>
+    <div class="loading"></div>
+</div>
+    <script>
+    window.config = {
+        GitHubUserName     : "first19326",
+        GitHubRepositories : "Hexo-LiveForCode",
+
+        User             : "聪葱聪",
+        UserAvatar       : "/image/sidebar/avatar.jpg",
+        WebsiteStartDate : "2023-05-31",
+
+        WebsiteTitleBlur         : "(◍´꒳`◍) Hi, 聪葱聪",
+        WebsiteTitleBlurTimeOut  : 500,
+        WebsiteTitleFocus        : "(*´∇｀*) 欢迎回来!",
+        WebsiteTitleFocusTimeOut : 1000,
+        WebsiteFavicon           : {
+            light : "/image/website/logo/logo.png",
+            dark  : "/image/website/logo/logo-dark.png"
+        },
+
+        ProgressBar : {
+            id       : "topProgressBar",
+            color    : "#77B6FF",
+            height   : "2px",
+            duration : 0.2
+        },
+
+        Loading: {
+            rebound : {
+                tension  : 16,
+                friction : 5
+            },
+            spinner : {
+                id     : "spinner",
+                radius : 90,
+                sides  : 3,
+                depth  : 4,
+                colors : {
+                    background : "#F0F0F0",
+                    stroke     : "#272633",
+                    base       : "",
+                    child      : "#272633"
+                },
+                alwaysForward : true,
+                restAt        : 0.5,
+                renderBase    : false
+            }
+        },
+
+        HomeHeaderAnimationRendered : true,
+        HomeHeaderAnimation         : {
+            radius      : 15,
+            density     : 0.2,
+            color       : "rgba(255, 255, 255, .2)",
+            clearOffset : 0.3
+        },
+
+        BackAnimationRendered          : true,
+        IEBrowserBackAnimationRendered : false,
+        BackAnimation                  : {
+            colorSaturation  : "60%",
+            colorBrightness  : "50%",
+            colorAlpha       : 0.5,
+            colorCycleSpeed  : 5,
+            verticalPosition : "random",
+            horizontalSpeed  : 200,
+            ribbonCount      : 3,
+            strokeSize       : 0,
+            parallaxAmount   : -0.2,
+            animateSections  : true
+        },
+
+        HomeHeaderImage : [
+            
+                "/image/header/home.jpg",
+            
+                "/image/header/home.jpeg",
+            
+        ],
+        HomeBannerText  : "",
+
+        ArticleHeaderImage : [
+            
+                "/image/header/article.jpg",
+            
+        ],
+
+        OtherBannerText : "",
+
+        Error : {
+            icon    : "icon-swimming",
+            title   : "PAGE NOT FOUND",
+            content : [
+                
+                    "很抱歉，您访问的页面不存在！",
+                
+                    "可能是输入地址有误或该地址已变更。",
+                
+            ],
+            buttons : [
+                
+                    {
+                        icon  : "icon-home",
+                        text  : "返回首页",
+                        href  : "/",
+                        class : ""
+                    },
+                
+            ]
+        },
+
+        MenuNotice : {
+            enable : true,
+            notice : "简单地活着，肆意而又精彩！",
+            speed  : 20
+        },
+        MenuList : [
+            
+                {
+                    name   : "首页",
+                    icon   : "icon-home-fill",
+                    href   : "/",
+                    type   : "index",
+                    class  : "",
+                    target : "_self"
+                },
+            
+                {
+                    name   : "分类",
+                    icon   : "icon-folder-fill",
+                    href   : "/category",
+                    type   : "category",
+                    class  : "",
+                    target : "_self"
+                },
+            
+                {
+                    name   : "标签",
+                    icon   : "icon-discount-fill",
+                    href   : "/tag",
+                    type   : "tag",
+                    class  : "",
+                    target : "_self"
+                },
+            
+                {
+                    name   : "归档",
+                    icon   : "icon-calendar-fill",
+                    href   : "/archive",
+                    type   : "archive",
+                    class  : "",
+                    target : "_self"
+                },
+            
+                {
+                    name   : "赞赏",
+                    icon   : "icon-heart-fill",
+                    href   : "/donate",
+                    type   : "donate",
+                    class  : "",
+                    target : "_self"
+                },
+            
+                {
+                    name   : "关于",
+                    icon   : "icon-about-fill",
+                    href   : "/about",
+                    type   : "about",
+                    class  : "",
+                    target : "_self"
+                },
+            
+                {
+                    name   : "订阅",
+                    icon   : "icon-rss",
+                    href   : "/atom.xml",
+                    type   : "",
+                    class  : "",
+                    target : "_blank"
+                },
+            
+                {
+                    name   : "搜索",
+                    icon   : "icon-search-menu",
+                    href   : "javascript:;",
+                    type   : "",
+                    class  : "search",
+                    target : "_self"
+                },
+            
+                {
+                    name   : "留言板",
+                    icon   : "icon-comments-fill",
+                    href   : "/comment",
+                    type   : "comment",
+                    class  : "",
+                    target : "_self"
+                },
+            
+                {
+                    name   : "友情链接",
+                    icon   : "icon-link",
+                    href   : "/friend",
+                    type   : "friend",
+                    class  : "",
+                    target : "_self"
+                },
+            
+        ],
+        MenuLink : [
+            
+                
+                    {
+                        name   : "知乎",
+                        icon   : "icon-zhihu",
+                        href   : "https://www.zhihu.com/people/22-72-11-87",
+                        class  : "",
+                        target : "_blank",
+                        image  : ""
+                    },
+                
+                    {
+                        name   : "微博",
+                        icon   : "icon-weibo",
+                        href   : "https://weibo.com/u/1811896253",
+                        class  : "",
+                        target : "_blank",
+                        image  : ""
+                    },
+                
+                    {
+                        name   : "QQ",
+                        icon   : "icon-qq",
+                        href   : "javascript:;",
+                        class  : "image",
+                        target : "_self",
+                        image  : "/image/sidebar/qq.png"
+                    },
+                
+                    {
+                        name   : "微信",
+                        icon   : "icon-wechat",
+                        href   : "javascript:;",
+                        class  : "",
+                        target : "_self",
+                        image  : ""
+                    },
+                
+                    {
+                        name   : "GitHub",
+                        icon   : "icon-github",
+                        href   : "https://github.com/cong1018",
+                        class  : "",
+                        target : "_blank",
+                        image  : ""
+                    },
+                
+            
+        ],
+
+        FooterStyle : 2,
+        BottomText  : "<div><span class='face'>ღゝ◡╹)ノ♡</span></div><div>【人生若只如初见<span><i class='iconfont icon-like-fill'></i></span>何事秋风悲画扇】</div><div>&copy; 2020-2023 WorstOne. All Rights Reserved.</div>",
+
+        ConsoleList : [
+            
+                
+                    [
+                        
+                            
+                                "Based on cnblogs theme SimpleMemory.",
+                            
+                                "",
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                "SimpleMemory Author:",
+                            
+                                "BNDong",
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                "Theme:",
+                            
+                                "聪葱聪",
+                            
+                        
+                    ],
+                
+            
+        ],
+
+        FontIconExtend : "",
+
+        Donate : {
+            paypal  : "",
+            bitcoin : "",
+            alipay  : "/image/donate/alipay.png",
+            wechat  : "/image/donate/wechat.png"
+        },
+
+        Search : {
+            applicationID : "010C3EANT8",
+            apiKey        : "c7abab9f11b79102b9aff7fe6d41447d",
+            indexName     : "Notes",
+            hits          : {
+                page : 10
+            },
+            labels        : {
+                placeholder : "搜索",
+                empty       : "未发现与 「${query}」 相关的内容",
+                stats       : "${hits} 条相关条目，使用了 ${time} 毫秒",
+            }
+        }, 
+
+        Comment : {
+            switch : true,
+            type   : "Valine",
+        },
+
+        Waline : {
+            el              : ".comments-content",
+            serverURL       : "",
+            path            : window.location.pathname,
+            meta            : "['nick', 'mail', 'link']",
+            requiredMeta    : "['nick', 'mail']",
+            pageSize        : 10,
+            lang            : "zh-cn",
+            locale: {
+                admin       : "博主",
+                anonymous   : "匿名用户",
+                sofa        : "快来做第一个评论的人吧 ~",
+                placeholder : "你是我一生只会遇见一次的惊喜...",
+            },
+            dark            : "html[color-scheme='dark']",
+            search          : false,
+            pageview        : true,
+            comment         : true,
+            copyright       : false,
+        },
+
+        Valine : {
+            el             : ".comments-content",
+            appId          : "KRHBAZI6PY",
+            appKey         : "5b48fd6314097296c1a916c6c6ef1196",
+            serverURLs     : "",
+            placeholder    : "你是我一生只会遇见一次的惊喜...",
+            avatar         : "mm",
+            meta           : "nick,mail,link",
+            requiredFields : "nick,mail",
+            pageSize       : 5,
+            lang           : "zh-cn",
+            visitor        : true,
+            enableQQ       : true
+        },
+
+        Tocbot : {
+            switch                : true,
+            tocSelector           : ".toc",
+            contentSelector       : ".article-body",
+            headingSelector       : "h1, h2, h3, h4, h5",
+            headingsOffset        : 0,
+            scrollSmooth          : true,
+            scrollSmoothOffset    : -5,
+            positionFixedSelector : ".toc",
+            positionFixedClass    : "toc-fixed",
+            fixedSidebarOffset    : "",
+        },
+
+        Require : {
+            baseUrl     : "/js/",
+            waitSeconds : 100
+        },
+
+        Music : {
+            type : "Meting"
+        },
+        APlayer : {
+            container : ".aplayer",
+            fixed     : true,
+            autoplay  : false,
+            loop      : "all",
+            order     : "random",
+            preload   : "auto",
+            volume    : 0.67,
+            mutex     : true,
+            lrcType   : 3,
+            audio     : [
+                
+                    {
+                        name   : "Endless Tears",
+                        artist : "CLIFF EDGE",
+                        cover  : "/music/cover/Endless Tears.jpg",
+                        url    : "/music/song/Endless Tears.mp3",
+                        lrc    : "/music/lrc/Endless Tears.lrc"
+                    },
+                
+            ]
+        },
+        Meting : {
+            id       : "3778678", 
+            lrcshow  : false, 
+            server   : "netease", 
+            type     : "playlist", 
+            fixed    : true, 
+            autoplay : false, 
+            loop     : "all", 
+            order    : "random", 
+            preload  : "auto", 
+            volume   : 0.67, 
+            mutex    : true
+        },
+
+        Mouse : {
+            enable  : true,
+            options : {
+                size  : 6,
+                sizeF : 24
+            }
+        },
+
+        LazyLoad : {
+            default : "/image/website/lazyload.svg"
+        },
+  
+        Style : {
+            aplayer          : "/css/APlayer.css",
+            archive          : "/css/archive.css",
+            base             : "/css/base.css",
+            clipboard        : "/css/clipboard.css",
+            code             : "/css/code.css",
+            donate           : "/css/donate.css",
+            fancybox         : "/css/jquery.fancybox.css",
+            footer           : "/css/footer.css",
+            iconfont         : "/iconfont/iconfont.css",
+            index            : "/css/index.css",
+            menuBubble       : "/css/menu-bubble.css",
+            mouse            : "/css/mouse.css",
+            page             : "/css/page.css",
+            post             : "/css/post.css",
+            search           : "/css/search.css",
+            tocbot           : "/css/tocbot.css",
+            valine           : "/css/valine.css",
+            waline           : "/css/waline.css",
+            walineCustom     : "/css/waline-custom.css"
+        },
+
+        Script: {
+            aplayer          : "/js/APlayer.min.js",
+            config           : "/js/require.config.js",
+            index            : "/js/index.js",
+            instantSearch    : "/js/instantsearch.min.js",
+            iscroll          : "/js/iscroll.js",
+            jQuery           : "/js/jquery-3.4.1.min.js",
+            loading          : "/js/loading.js",
+            meting           : "/js/Meting.min.js",
+            require          : "/js/require.min.js",
+            waline           : "/js/waline.mjs",
+            pageview         : "/js/pageview.mjs",
+            comment          : "/js/comment.mjs",
+        },
+
+        Font: {
+            LongCang    : "/font/LongCang.css",
+            Monda       : "/font/Monda.css",
+            NotoSansSC  : "/font/NotoSansSC.css",
+            NotoSerifSC : "/font/NotoSerifSC.css",
+            Playball    : "/font/Playball.css",
+            PTMono      : "/font/PTMono.css",
+            Roboto      : "/font/Roboto.css",
+            RobotoSlab  : "/font/RobotoSlab.css",
+            Rosario     : "/font/Rosario.css",
+            UbuntuMono  : "/font/UbuntuMono.css"
+        },
+
+        Suffix : {
+            about : "简单地活着, 肆意又精彩."
+        },
+            
+        Theme : {
+            url  : "https://cong1018.github.io/",
+            name : "Hexo - 聪葱聪"
+        }  
+    };
+</script>
+    <script type="text/javascript" src="/js/index.js"></script>
+</body>
+</html>
