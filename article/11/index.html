@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            分类
+            Centos /home目录存储大小调整
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -32,15 +32,40 @@
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body>
     <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/page.css">
+    <link type="text/css" rel="stylesheet" href="/css/post.css">
 <div id="header" class="header">
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">分类</h1>
+                <h1 class="header-subtitle">Centos /home目录存储大小调整</h1>
                 <div class="header-subinfo">
-                    <p class="article-info-text Chinese"></p>
-                    <p class="article-info-text English"></p>                  
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2024-04-18
+                        </span>
+                        
+                            
+                                <span id="/article/11/" class="leancloud_visitors" data-flag-title="Centos /home目录存储大小调整">
+                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                                </span>
+                            
+                            
+                                <span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/article/11/"></span>
+                                </span>
+                              
+                        
+                    </p>
+                    
+                        
+                            <span class="category-color">CentOs</span>
+                        
+                    
+                    
+                        
+                            <span class="tag-color">CentOs</span>
+                        
+                    
                 </div>
             
         </div>
@@ -49,17 +74,84 @@
 </div>
 <div id="container">
     
-        <!-- 独立页面 -->
-        
-            <div class="categories">
-                <div class="categories-title">
-                    目前共计 8 个分类
-                </div>
-                <div class="categories-content">
-                    <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/category/CentOs/">CentOs</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/category/Docker/">Docker</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/category/ESXI/">ESXI</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/category/Hexo/">Hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/category/Kubernetes/">Kubernetes</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/category/MySQL/">MySQL</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/category/node/">node</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/category/rtmp/">rtmp</a><span class="category-list-count">2</span></li></ul>
+        <!-- 文章页面 -->
+        <div id="article">
+            <div class="toc"></div>
+            <div class="article-body">
+                <h1 id="Centos-x2F-home目录存储大小调整"><a href="#Centos-x2F-home目录存储大小调整" class="headerlink" title="Centos &#x2F;home目录存储大小调整"></a>Centos &#x2F;home目录存储大小调整</h1><p>查看分区命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">df -h ./   查root使用</span><br><span class="line"></span><br><span class="line">df -PTh  查全部</span><br><span class="line"></span><br><span class="line">lsbblk  查全部</span><br></pre></td></tr></table></figure>
+
+
+<p>首先，需要明确一点，XFS文件系统不支持在线压缩。因此，你需要按照以下步骤备份、卸载、删除、创建、挂载、以及恢复你的&#x2F;home目录。</p>
+<h3 id="备份（备份到外部存储介质）"><a href="#备份（备份到外部存储介质）" class="headerlink" title="备份（备份到外部存储介质）"></a>备份（备份到外部存储介质）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">创建一个名为home_backup的目录，用于存储备份数据</span></span><br><span class="line">sudo mkdir /home_backup</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用rsync命令将/home目录备份到/home_backup目录</span></span><br><span class="line">sudo rsync -av /home/* /home_backup/</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载-x2F-home目录"><a href="#卸载-x2F-home目录" class="headerlink" title="卸载&#x2F;home目录"></a>卸载&#x2F;home目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用umount命令卸载/home目录</span></span><br><span class="line">sudo umount /home</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建新的XFS文件系统并指定大小为230G"><a href="#创建新的XFS文件系统并指定大小为230G" class="headerlink" title="创建新的XFS文件系统并指定大小为230G"></a>创建新的XFS文件系统并指定大小为230G</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.xfs -f -d size=230g /dev/mapper/centos-home</span><br></pre></td></tr></table></figure>
+
+<h3 id="挂载新的-x2F-home目录"><a href="#挂载新的-x2F-home目录" class="headerlink" title="挂载新的&#x2F;home目录"></a>挂载新的&#x2F;home目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount /dev/mapper/centos-home /home</span><br></pre></td></tr></table></figure>
+
+<h3 id="恢复备份数据到新的-x2F-home目录"><a href="#恢复备份数据到新的-x2F-home目录" class="headerlink" title="恢复备份数据到新的&#x2F;home目录"></a>恢复备份数据到新的&#x2F;home目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rsync -av /home_backup/* /home/</span><br></pre></td></tr></table></figure>
+
+<p>增加&#x2F;dev&#x2F;mapper&#x2F;centos-root大小</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lvextend -l+100%FREE /dev/mapper/centos-root</span><br></pre></td></tr></table></figure>
+                
+                <p class="end">__END__</p>
+            </div>
+            <div class="article-footer">
+                <div class="suffix-box">
+    <div class="suffix-box-left">
+        <img src="/image/sidebar/avatar.jpg" alt="聪葱聪">
+    </div>
+    <div class="suffix-box-right">
+        <span class="suffix-box-title">文章作者：</span>聪葱聪
+        <br>
+        <span class="suffix-box-title">文章出处：</span><a href="/article/11/" target="_blank">Centos /home目录存储大小调整</a>
+        <br>
+        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
+        <br>
+        <span class="suffix-box-title">关于主题：</span><a href="https://cong1018.github.io/" target="_blank">Hexo - 聪葱聪</a>
+        <br>
+        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+        <br>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+                
+                    <div class="category">
+                        分类：
+                        
+                            <a href="/category/CentOs/">CentOs</a>
+                        
+                    </div>
+                
+                
+                    <div class="tag">
+                        标签：
+                        
+                            <a href="/tag/CentOs/">CentOs</a>
+                        
+                    </div>
+                
+                <div class="article-prev-next">
+                    
+                    
+                        <a href="/article/9/" class="next-prefix">» </a> 下一篇：    <a href="/article/9/" title="发布于 2023-11-14 11:22">构建rtmp-m3u8镜像及简单使用</a>
+                    
                 </div>
             </div>
+            
+    <div class="article-comments">
         
+            <div class="comments-title">
+                评论列表
+            </div>
+        
+        <div class="comments-content"></div>
+    </div>
+    
+ 
+        </div>
     
 </div>
     <div id="footer">
@@ -89,7 +181,7 @@
                     
                         <li class=""><a href="/" class="" target="_self"><span class="iconfont icon-home-fill"></span>首页</a></li>
                     
-                        <li class=" active "><a href="/category" class="" target="_self"><span class="iconfont icon-folder-fill"></span>分类</a></li>
+                        <li class=""><a href="/category" class="" target="_self"><span class="iconfont icon-folder-fill"></span>分类</a></li>
                     
                         <li class=""><a href="/tag" class="" target="_self"><span class="iconfont icon-discount-fill"></span>标签</a></li>
                     
