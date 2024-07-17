@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            分类 - node
+            Volta node版本管理工具安装
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -32,15 +32,40 @@
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body>
     <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/archive.css">
+    <link type="text/css" rel="stylesheet" href="/css/post.css">
 <div id="header" class="header">
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">分类归档</h1>
+                <h1 class="header-subtitle">Volta node版本管理工具安装</h1>
                 <div class="header-subinfo">
-                    <p class="article-info-text Chinese"></p>
-                    <p class="article-info-text English"></p>                  
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2024-07-16
+                        </span>
+                        
+                            
+                                <span id="/article/12/" class="leancloud_visitors" data-flag-title="Volta node版本管理工具安装">
+                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                                </span>
+                            
+                            
+                                <span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/article/12/"></span>
+                                </span>
+                              
+                        
+                    </p>
+                    
+                        
+                            <span class="category-color">node</span>
+                        
+                    
+                    
+                        
+                            <span class="tag-color">node</span>
+                        
+                    
                 </div>
             
         </div>
@@ -49,52 +74,88 @@
 </div>
 <div id="container">
     
-        
-            <!-- 归档页面、分类归档页面、标签归档页面 -->
-            <div class="articles">
-                <div class="articles-wrap">
-                    <span class="archive-move-on"></span>
-                    <span class="archive-counter">
+        <!-- 文章页面 -->
+        <div id="article">
+            <div class="toc"></div>
+            <div class="article-body">
+                <h1 id="Volta-node-版本管理工具安装"><a href="#Volta-node-版本管理工具安装" class="headerlink" title="Volta node 版本管理工具安装"></a>Volta node 版本管理工具安装</h1><h2 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h2><p>1.github下载地址</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/volta-cli/volta/releases">Releases · volta-cli&#x2F;volta (github.com)</a></p>
+<p><img src="/image/blog/assets/image-20240716172805333.png" alt="image-20240716172805333"></p>
+<p>下载<a target="_blank" rel="noopener" href="https://github.com/volta-cli/volta/releases/download/v1.1.1/volta-1.1.1-windows-x86_64.msi">volta-1.1.1-windows-x86_64.msi</a>这个文件，zip的解压缺少文件</p>
+<h2 id="2-安装"><a href="#2-安装" class="headerlink" title="2.安装"></a>2.安装</h2><p>点击下载的软件直接安装，默认安装在c盘Program Files (x86)中，可以选择是否剪切到其他盘，不更换盘符后续安装的node文件全在c盘；</p>
+<h2 id="3-更好软件盘符"><a href="#3-更好软件盘符" class="headerlink" title="3.更好软件盘符"></a>3.更好软件盘符</h2><p>如切换到D盘则需要更改环境变量,先删除默认的环境变量，再添加下面截图的三个环境变量</p>
+<p><img src="/image/blog/assets/image-20240716173354661.png" alt="image-20240716173354661"></p>
+<p><img src="/image/blog/assets/image-20240716173426668.png" alt="image-20240716173426668"></p>
+<p><img src="/image/blog/assets/image-20240716173454850.png" alt="image-20240716173454850"></p>
+<h2 id="4-volta常用命令"><a href="#4-volta常用命令" class="headerlink" title="4.volta常用命令"></a>4.volta常用命令</h2><p>参考官网地址：<a target="_blank" rel="noopener" href="https://docs.volta.sh/reference/uninstall">Volta 卸载 |沃尔特</a></p>
+<p>volta install <a href="mailto:&#x6e;&#x6f;&#100;&#101;&#x40;&#x31;&#x34;&#x2e;&#49;&#53;&#46;&#53;">&#x6e;&#x6f;&#100;&#101;&#x40;&#x31;&#x34;&#x2e;&#49;&#53;&#46;&#53;</a>  安装node  14.15.5为版本号</p>
+<p>volta list node 显示已安装的node</p>
+<p>volta list 显示默认使用的版本</p>
+<p>volta pin <a href="mailto:&#110;&#111;&#x64;&#x65;&#x40;&#49;&#52;&#x2e;&#49;&#53;&#46;&#x35;">&#110;&#111;&#x64;&#x65;&#x40;&#49;&#52;&#x2e;&#49;&#53;&#46;&#x35;</a>  在对应项目使用此命令，让此项目以对应的node版本启动，会在package.json生成以下代码</p>
+<p><img src="/image/blog/assets/image-20240716173944048.png" alt="image-20240716173944048"></p>
+<h2 id="5-npm报错处理"><a href="#5-npm报错处理" class="headerlink" title="5.npm报错处理"></a>5.npm报错处理</h2><p>以下是npm -v在运行出现时 <code>npm WARN config global --global, -local are deprecated. Use --location=global instead.</code>解决步骤</p>
+<p>步骤一：打开node.js的安装路径–&gt;找到npm.cmd文件，右键编辑打开</p>
+<p>步骤二：将文件中的prefix-g 更改为prefix –location&#x3D;global。如同所示。<strong>注意后面还有个单引号！！！不要误删！！！</strong></p>
+<p><img src="/image/blog/assets/image-20240716174348769.png" alt="image-20240716174348769"></p>
+<h2 id="6-配置npm连接私服"><a href="#6-配置npm连接私服" class="headerlink" title="6.配置npm连接私服"></a>6.配置npm连接私服</h2><p>因开发人员不允许上外网，故在10.88.12.5服务器上搭建npm私服，开发人员本地需将npm配置为连接私服地址，方法如下：<br>1、win+R快捷键打开“运行”，输入cmd，进入Windows命令终端；<br>2、输入命令：npm set registry <a target="_blank" rel="noopener" href="http://10.88.12.185:7001/">http://10.88.12.185:7001/</a><br>3、按Enter键确认即可<br>4、查看私服仓库详情可以访问 <a target="_blank" rel="noopener" href="http://10.88.12.185:7002/">http://10.88.12.185:7002/</a></p>
+
+                
+                <p class="end">__END__</p>
+            </div>
+            <div class="article-footer">
+                <div class="suffix-box">
+    <div class="suffix-box-left">
+        <img src="/image/sidebar/avatar.jpg" alt="聪葱聪">
+    </div>
+    <div class="suffix-box-right">
+        <span class="suffix-box-title">文章作者：</span>聪葱聪
+        <br>
+        <span class="suffix-box-title">文章出处：</span><a href="/article/12/" target="_blank">Volta node版本管理工具安装</a>
+        <br>
+        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
+        <br>
+        <span class="suffix-box-title">关于主题：</span><a href="https://cong1018.github.io/" target="_blank">Hexo - 聪葱聪</a>
+        <br>
+        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+        <br>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+                
+                    <div class="category">
+                        分类：
                         
-                            当前分类：<span class="category">node</span>
+                            <a href="/category/node/">node</a>
                         
-                    </span>
+                    </div>
+                
+                
+                    <div class="tag">
+                        标签：
+                        
+                            <a href="/tag/node/">node</a>
+                        
+                    </div>
+                
+                <div class="article-prev-next">
                     
                     
-                        
-                            <div class="archive-title">
-                                <h2 class="archive-year">2024</h2>
-                            </div>
-                            
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/12/"><span>Volta node版本管理工具安装</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">07-16</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        
-                            <div class="archive-title">
-                                <h2 class="archive-year">2023</h2>
-                            </div>
-                            
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/3/"><span>nvm包管理器安装笔记</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">05-31</span>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="/article/11/" class="next-prefix">» </a> 下一篇：    <a href="/article/11/" title="发布于 2024-04-18 05:17">Centos /home目录存储大小调整</a>
                     
                 </div>
             </div>
             
+    <div class="article-comments">
         
+            <div class="comments-title">
+                评论列表
+            </div>
+        
+        <div class="comments-content"></div>
+    </div>
+    
+ 
+        </div>
     
 </div>
     <div id="footer">
