@@ -78,11 +78,13 @@
         <div id="article">
             <div class="toc"></div>
             <div class="article-body">
-                <h2 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a><strong>1、安装</strong></h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45790117/article/details/114976640%EF%BC%88%E4%B8%8D%E7%94%A8%E6%96%B0%E5%BB%BAmy.ini%E5%92%8Cdata%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%89">https://blog.csdn.net/qq_45790117/article/details/114976640（不用新建my.ini和data文件夹）</a></p>
+                <h2 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a><strong>1、安装</strong></h2><p>参考博客：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45790117/article/details/114976640%EF%BC%88%E4%B8%8D%E7%94%A8%E6%96%B0%E5%BB%BAmy.ini%E5%92%8Cdata%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%89">https://blog.csdn.net/qq_45790117/article/details/114976640（不用新建my.ini和data文件夹）</a></p>
+<p>如果自己新建my.ini和data文件夹先进行删除，新安装从第三步开始</p>
 <p>建了my.ini和data文件夹按下方步骤操作<br>1.删除自己手动创建的data文件夹；</p>
-<p>2.管理员权限CMD的bin目录下，移除已错误安装的mysqld服务；</p>
+<p>2.<strong>管理员权限CMD</strong>的bin目录下，移除已错误安装的mysqld服务；</p>
 <p>mysqld -remove MySQL<br>出现删除成功！</p>
-<p>3.在CMD的bin目录下执行mysqld –initialize-insecure</p>
+<p>3.把D:\Program Files\mysql-8.0.31-winx64\bin解压后的bin路径添加到环境变量path中</p>
+<p>在<strong>管理员权限</strong>CMD的bin目录下执行mysqld –initialize-insecure</p>
 <p>会发现程序在mysql的根目录下自动创建了data文件夹以及相关的文件</p>
 <p>4.bin目录下执行mysqld -install</p>
 <p>出现Service successfully installed.</p>

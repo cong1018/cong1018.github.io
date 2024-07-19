@@ -81,6 +81,18 @@
                 <h1 id="1、Hexo常用指令"><a href="#1、Hexo常用指令" class="headerlink" title="1、Hexo常用指令"></a>1、Hexo常用指令</h1><p>hexo clean  \清除静态文件<br>hexo g	\生成静态文件<br>hexo s	\启动本地预览<br>hexo d 	\上传</p>
 <p>npm install hexo-deployer-git –save	\上传需要安装这个插件</p>
 <h2 id="2、Hexo官网"><a href="#2、Hexo官网" class="headerlink" title="2、Hexo官网"></a><strong>2、Hexo官网</strong></h2><p><a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/">Hexo</a> </p>
+<h2 id="3、使用volta-node管理工具"><a href="#3、使用volta-node管理工具" class="headerlink" title="3、使用volta node管理工具"></a>3、使用volta node管理工具</h2><p>1、安装使用命令</p>
+<p>npm install –location&#x3D;global hexo-cli</p>
+<p>2、使用命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npx hexo clean  \\清除静态文件</span><br><span class="line">npx hexo g	\\生成静态文件</span><br><span class="line">npx hexo s	\\启动本地预览</span><br><span class="line">npx hexo d 	\\上传</span><br></pre></td></tr></table></figure>
+
+<p>3、安装换源</p>
+<p>使用那个镜像，只需要 npm config set registry + 对应的镜像网址就好了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config set registry https://mirrors.huaweicloud.com/repository/npm/</span><br></pre></td></tr></table></figure>
+
+<p>查看当前的镜像源：npm config get registry</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm 官方原始镜像网址是：https://registry.npmjs.org/</span><br><span class="line">淘宝 NPM 镜像：http://registry.npmmirror.com</span><br><span class="line">阿里云 NPM 镜像：https://npm.aliyun.com</span><br><span class="line">腾讯云 NPM 镜像：https://mirrors.cloud.tencent.com/npm/</span><br><span class="line">华为云 NPM 镜像：https://mirrors.huaweicloud.com/repository/npm/</span><br><span class="line">网易 NPM 镜像：https://mirrors.163.com/npm/</span><br><span class="line">中国科学技术大学开源镜像站：http://mirrors.ustc.edu.cn/</span><br><span class="line">清华大学开源镜像站：https://mirrors.tuna.tsinghua.edu.cn/</span><br><span class="line">腾讯，华为，阿里的镜像站基本上比较全</span><br></pre></td></tr></table></figure>
+
 
                 
                 <p class="end">__END__</p>
