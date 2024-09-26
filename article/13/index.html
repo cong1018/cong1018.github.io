@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title>
         
-            归档
+            Ubuntu新硬盘分区挂载
         
     </title>
     <link rel="shortcut icon" href="#"/>
@@ -32,15 +32,40 @@
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body>
     <a id="cover"></a>
-    <link type="text/css" rel="stylesheet" href="/css/archive.css">
+    <link type="text/css" rel="stylesheet" href="/css/post.css">
 <div id="header" class="header">
     <div class="vertical">
         <div class="inner">
             
-                <h1 class="header-subtitle">归档</h1>
+                <h1 class="header-subtitle">Ubuntu新硬盘分区挂载</h1>
                 <div class="header-subinfo">
-                    <p class="article-info-text Chinese"></p>
-                    <p class="article-info-text English"></p>                  
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2024-09-26
+                        </span>
+                        
+                            
+                                <span id="/article/13/" class="leancloud_visitors" data-flag-title="Ubuntu新硬盘分区挂载">
+                                    <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                                </span>
+                            
+                            
+                                <span>
+                                    <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/article/13/"></span>
+                                </span>
+                              
+                        
+                    </p>
+                    
+                        
+                            <span class="category-color">Ubuntu</span>
+                        
+                    
+                    
+                        
+                            <span class="tag-color">Ubuntu</span>
+                        
+                    
                 </div>
             
         </div>
@@ -49,127 +74,105 @@
 </div>
 <div id="container">
     
-        
-            <!-- 归档页面、分类归档页面、标签归档页面 -->
-            <div class="articles">
-                <div class="articles-wrap">
-                    <span class="archive-move-on"></span>
-                    <span class="archive-counter">
+        <!-- 文章页面 -->
+        <div id="article">
+            <div class="toc"></div>
+            <div class="article-body">
+                <p>要在Ubuntu系统上给新硬盘分区并挂载到<code>/data</code>目录，可以按照以下步骤进行：</p>
+<ol>
+<li><p><strong>连接新硬盘</strong>：确保新硬盘已连接到系统。</p>
+</li>
+<li><p><strong>查看硬盘</strong>：使用命令查看系统中的硬盘：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l</span><br></pre></td></tr></table></figure>
+<p>找到新硬盘的设备名称，例如 <code>/dev/sdb</code>。</p>
+</li>
+<li><p><strong>分区硬盘</strong>：使用<code>fdisk</code>命令对新硬盘进行分区：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+<ul>
+<li>输入<code>n</code>以创建新分区。</li>
+<li>选择分区类型（通常选择<code>p</code>为主分区）。</li>
+<li>设置分区号（通常是<code>1</code>），然后按回车接受默认值。</li>
+<li>设置起始和结束扇区，或直接按回车以使用默认值。</li>
+<li>输入<code>w</code>保存并退出。</li>
+</ul>
+</li>
+<li><p><strong>格式化分区</strong>：将新分区格式化为文件系统（例如ext4）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.ext4 /dev/sdb1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>创建挂载点</strong>：创建<code>/data</code>目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">mkdir</span> /data</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>挂载分区</strong>：将新分区挂载到<code>/data</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount /dev/sdb1 /data</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>自动挂载设置</strong>：要在启动时自动挂载，请编辑<code>/etc/fstab</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/fstab</span><br></pre></td></tr></table></figure>
+<p>添加以下行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/dev/sdb1 /data ext4 defaults 0 2</span><br></pre></td></tr></table></figure>
+<p>保存并退出。</p>
+</li>
+<li><p><strong>验证挂载</strong>：使用命令检查是否挂载成功：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">df</span> -h</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>完成后，你的新硬盘就会挂载到<code>/data</code>目录。</p>
+
+                
+                <p class="end">__END__</p>
+            </div>
+            <div class="article-footer">
+                <div class="suffix-box">
+    <div class="suffix-box-left">
+        <img src="/image/sidebar/avatar.jpg" alt="聪葱聪">
+    </div>
+    <div class="suffix-box-right">
+        <span class="suffix-box-title">文章作者：</span>聪葱聪
+        <br>
+        <span class="suffix-box-title">文章出处：</span><a href="/article/13/" target="_blank">Ubuntu新硬盘分区挂载</a>
+        <br>
+        <span class="suffix-box-title">作者签名：</span>简单地活着, 肆意又精彩.
+        <br>
+        <span class="suffix-box-title">关于主题：</span><a href="https://cong1018.github.io/" target="_blank">Hexo - 聪葱聪</a>
+        <br>
+        <span class="suffix-box-title">版权声明：</span>文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+        <br>
+    </div>
+    <div style="clear: both;"></div>
+</div>
+                
+                    <div class="category">
+                        分类：
                         
-                            目前共计 13 篇日志，继续加油！
+                            <a href="/category/Ubuntu/">Ubuntu</a>
                         
-                    </span>
-                    
-                    
+                    </div>
+                
+                
+                    <div class="tag">
+                        标签：
                         
-                            <div class="archive-title">
-                                <h2 class="archive-year">2023</h2>
-                            </div>
-                            
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/9/"><span>构建rtmp-m3u8镜像及简单使用</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">11-14</span>
-                                </div>
-                            </div>
-                        </div>
+                            <a href="/tag/Ubuntu/">Ubuntu</a>
+                        
+                    </div>
+                
+                <div class="article-prev-next">
                     
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/10/"><span>构建rtmp-flv镜像及简单使用</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">11-14</span>
-                                </div>
-                            </div>
-                        </div>
                     
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/8/"><span>ESXI虚拟化</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">09-01</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/7/"><span>Kubernetes核心实战</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">06-21</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/6/"><span>Kubernetes基础概念</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">06-20</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/5/"><span>Docker命令实战</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">06-16</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/4/"><span>Docker常用命令</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">06-12</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/3/"><span>nvm包管理器安装笔记</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">05-31</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/2/"><span>MySQL笔记</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">05-31</span>
-                                </div>
-                            </div>
-                        </div>
-                    
-                           
-                        <div class="article">
-                            <div class="article-header">
-                                <h1 class="article-title"><a href="/article/1/"><span>Hexo笔记</span></a></h1>
-                                <div class="article-meta">
-                                    <span class="article-time">05-31</span>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="/article/12/" class="next-prefix">» </a> 下一篇：    <a href="/article/12/" title="发布于 2024-07-16 05:50">Volta node版本管理工具安装</a>
                     
                 </div>
             </div>
             
+    <div class="article-comments">
         
+            <div class="comments-title">
+                评论列表
+            </div>
+        
+        <div class="comments-content"></div>
+    </div>
+    
+ 
+        </div>
     
 </div>
     <div id="footer">
@@ -203,7 +206,7 @@
                     
                         <li class=""><a href="/tag" class="" target="_self"><span class="iconfont icon-discount-fill"></span>标签</a></li>
                     
-                        <li class=" active "><a href="/archive" class="" target="_self"><span class="iconfont icon-calendar-fill"></span>归档</a></li>
+                        <li class=""><a href="/archive" class="" target="_self"><span class="iconfont icon-calendar-fill"></span>归档</a></li>
                     
                         <li class=""><a href="/donate" class="" target="_self"><span class="iconfont icon-heart-fill"></span>赞赏</a></li>
                     
